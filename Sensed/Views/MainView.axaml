@@ -2,16 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Sensed.ViewModels"
+             xmlns:local="using:Sensed.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Sensed.Views.MainView"
              Foreground="White"
-             Background="#171C2C">
+             Background="#171C2C" x:DataType="local:MainViewModel" x:CompileBindings="True">
+  
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <viewModels:MainViewModel />
+    <local:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Grid>
+    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Button Content="показ профилей" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+            Margin="0,80,0,0" Width="140" Height="30"
+            Command="{Binding SetMainViewCommand}"/>
+    <ContentControl Content="{Binding ActiveViewModel}" 
+                    IsVisible="{Binding ActiveViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+  </Grid>
 </UserControl>
