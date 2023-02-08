@@ -1,9 +1,4 @@
-﻿using Avalonia.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Sensed.Models;
 
@@ -12,6 +7,21 @@ public enum AccountMark
     Like,
     Dislike,
     Banned,
+}
+
+public enum OperationResult
+{
+    Success,
+    Fail,
+    Undefined,
+}
+
+public enum AccountStatus
+{
+    Standard,
+    Level1,
+    Level2,
+    Level3,
 }
 
 public class SearchFilter
@@ -25,5 +35,5 @@ public class Account
     public int? Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
-    public List<string> PhotosIds { get; } = new();
+    public string[] PhotosIds { get; } = Array.Empty<string>();
 }

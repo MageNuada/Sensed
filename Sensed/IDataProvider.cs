@@ -4,13 +4,6 @@ using System.Threading.Tasks;
 
 namespace Sensed;
 
-public enum OperationResult
-{
-    Success,
-    Fail,
-    Undefined,
-}
-
 public interface IDataProvider
 {
     /// <summary>
@@ -56,6 +49,21 @@ public interface IDataProvider
     /// </summary>
     /// <returns></returns>
     Task<Account> GetMatchedAccounts();
+
+    /// <summary>
+    /// Получить статус аккаунта в плане оплаченности
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<AccountStatus> GetAccountStatus(string id);
+
+    /// <summary>
+    /// Запрос на смену(оплату) статуса
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="status"></param>
+    /// <returns></returns>
+    Task<OperationResult> SetAccountStatus(string id, AccountStatus status);
 
     /// <summary>
     /// Старт чата между людьми - видимо, должно возвращать провайдер, отвечающий за чат???
