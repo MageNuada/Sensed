@@ -11,14 +11,13 @@ public class MainViewModel : ViewModelBase
 
     public void SetMainViewCommand()
     {
-        if (Design.IsDesignMode)
-            return;
+        if (Design.IsDesignMode) return;
 
-        ActiveViewModel = new PeopleViewModel();
+        ActiveViewModel = new PeopleViewModel(null);
     }
 
-    public string Greeting => "Welcome to Avalonia!";
+    public string Greeting => "Welcome to Sensed!";
 
     [Reactive]
-    public ViewModelBase ActiveViewModel { get; set; }
+    public ConnectedViewModelBase? ActiveViewModel { get; set; }
 }

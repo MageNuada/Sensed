@@ -7,7 +7,7 @@ namespace Sensed;
 public enum OperationResult
 {
     Success,
-    Error,
+    Fail,
     Undefined,
 }
 
@@ -18,15 +18,23 @@ public interface IDataProvider
     /// что всё в порядке - аккаунт существует
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
-    Task<string> Login(string phone);
+    /// <returns>id в случае успеха, null в случае неудачи</returns>
+    Task<string?> Login(string phone);
 
     /// <summary>
     /// Регистрация нового аккаунта
     /// </summary>
     /// <param name="phone">Номер телефона без пробелов и скобочек с кодом страны в начале</param>
-    /// <returns></returns>
-    Task<string> CreateAccount(string phone);
+    /// <returns>Если телефон уже зарегистрирован - выдаст неудачу</returns>
+    Task<OperationResult> CreateAccount(string phone);
+
+    /// <summary>
+    /// Подтверждение аккаунта кодом из смс
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="smsCode"></param>
+    /// <returns>id в случае успеха, null в случае неудачи</returns>
+    Task<string?> VerifyAccount(string phone, string smsCode);
 
     Task<OperationResult> ModifyAccount(string description, IEnumerable<object> photos, IEnumerable<object> tags);
 
@@ -56,5 +64,5 @@ public interface IDataProvider
     /// <returns></returns>
     Task<object> StartChat(string id);
 
-    Task<byte[]> GetPhoto(string id);
+    Task<byte[]> GetPhoto(string photoId);
 }
