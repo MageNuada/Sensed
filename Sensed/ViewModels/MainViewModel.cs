@@ -13,7 +13,7 @@ public class MainViewModel : ViewModelBase
     {
         if (Design.IsDesignMode) return;
 
-        ActiveViewModel = new PeopleViewModel(null);
+        ActiveViewModel = new PeopleViewModel(new StubDataProvider());
     }
 
     public string Greeting => "Welcome to Sensed!";
