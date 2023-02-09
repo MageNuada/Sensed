@@ -1,4 +1,5 @@
-﻿using Sensed.Models;
+﻿using Avalonia.Media.Imaging;
+using Sensed.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +16,8 @@ public interface IDataProvider
     Task<string?> Login(string phone);
 
     /// <summary>
-    /// Регистрация нового аккаунта
+    /// Регистрация нового аккаунта, в случае успеха надо вызвать <see cref="VerifyAccount(string, string)"/>
+    /// для отправки полученного на указанный номер кода в смс
     /// </summary>
     /// <param name="phone">Номер телефона без пробелов и скобочек с кодом страны в начале</param>
     /// <returns>Если телефон уже зарегистрирован - выдаст неудачу</returns>
@@ -31,11 +33,11 @@ public interface IDataProvider
 
     Task<OperationResult> ModifyAccount(string description, IEnumerable<object> photos, IEnumerable<object> tags);
 
-    Task<OperationResult> DeleteAccount(string id);
+    Task<OperationResult> DeleteAccount();
 
-    Task<IEnumerable<Account>> GetAccounts(IEnumerable<string> ids, IEnumerable<SearchFilter>? filters = null);
+    Task<IEnumerable<AccountDTO>> GetAccounts(IEnumerable<string> ids, IEnumerable<SearchFilter>? filters = null);
 
-    Task<IEnumerable<Account>> SearchAccounts(IEnumerable<SearchFilter> filters);
+    Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters);
 
     /// <summary>
     /// Лайк/дизлайк аккаунта
@@ -48,22 +50,22 @@ public interface IDataProvider
     /// Получить список совпавших аккаунтов. Вызывается каждые Х секунд + должна вызываться после лайка для проверки?
     /// </summary>
     /// <returns></returns>
-    Task<Account> GetMatchedAccounts();
+    Task<AccountDTO> GetMatchedAccounts();
 
     /// <summary>
     /// Получить статус аккаунта в плане оплаченности
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<AccountStatus> GetAccountStatus(string id);
+    Task<AccountStatus> GetAccountStatus();
 
     /// <summary>
-    /// Запрос на смену(оплату) статуса
+    /// Запрос на смену(оплату) статуса, после выполнения надо вызвать <see cref="GetAccountStatus(string)" />
     /// </summary>
     /// <param name="id"></param>
     /// <param name="status"></param>
-    /// <returns></returns>
-    Task<OperationResult> SetAccountStatus(string id, AccountStatus status);
+    /// <returns>Ссылка (? скорее всего) на оплату</returns>
+    Task<string> SetAccountStatus(AccountStatus status);
 
     /// <summary>
     /// Старт чата между людьми - видимо, должно возвращать провайдер, отвечающий за чат???
@@ -72,5 +74,10 @@ public interface IDataProvider
     /// <returns></returns>
     Task<object> StartChat(string id);
 
-    Task<byte[]> GetPhoto(string photoId);
+    /// <summary>
+    /// Получение картинки по её айди
+    /// </summary>
+    /// <param name="photoId"></param>
+    /// <returns></returns>
+    Task<Bitmap> GetPhoto(string photoId);
 }

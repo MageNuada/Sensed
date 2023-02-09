@@ -28,12 +28,12 @@ public class SearchFilter
 {
 }
 
-public class Account
+public class AccountDTO
 {
-    public Account() { }
+    public AccountDTO() { }
 
-    public int? Id { get; set; }
+    public string? Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
-    public string[] PhotosIds { get; } = Array.Empty<string>();
+    public string[] PhotosIds { get; set; } = Array.Empty<string>();
 }

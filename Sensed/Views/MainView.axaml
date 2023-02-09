@@ -5,21 +5,15 @@
              xmlns:local="using:Sensed.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Sensed.Views.MainView"
-             Foreground="White"
-             Background="#171C2C" x:DataType="local:MainViewModel" x:CompileBindings="True">
-  
+             x:DataType="local:MainViewModel" x:CompileBindings="True">
+  <!--Background="#171C2C" Foreground="White"-->
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <local:MainViewModel />
   </Design.DataContext>
 
-  <Grid>
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <Button Content="показ профилей" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-            Margin="0,80,0,0" Width="140" Height="30"
-            Command="{Binding SetMainViewCommand}"/>
-    <ContentControl Content="{Binding ActiveViewModel}" 
-                    IsVisible="{Binding ActiveViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
-  </Grid>
+  <ContentControl Content="{Binding ActiveViewModel}"
+                  IsVisible="{Binding ActiveViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+  
 </UserControl>

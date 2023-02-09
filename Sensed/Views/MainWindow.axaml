@@ -8,5 +8,5 @@
         x:Class="Sensed.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Sensed">
-        <views:MainView />
+  <ContentControl Content="{Binding}" />
 </Window>

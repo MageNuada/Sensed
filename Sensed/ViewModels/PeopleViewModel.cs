@@ -2,14 +2,13 @@
 using Avalonia.Platform;
 using Avalonia;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Avalonia.Collections;
 using ReactiveUI.Fody.Helpers;
 using Avalonia.Controls;
 using ReactiveUI;
+using System.Threading.Tasks;
+using Sensed.Models;
+using System.Linq;
 
 namespace Sensed.ViewModels
 {
@@ -17,30 +16,34 @@ namespace Sensed.ViewModels
     {
         //private bool _imagesChanging;
 
+        public PeopleViewModel() : base(null) { if (!Design.IsDesignMode) throw new Exception("For design view only!"); }
+
         public PeopleViewModel(IDataProvider dataProvider) : base(dataProvider)
         {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
-            var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
-            var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
-            var bitmap3 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed3.png")));
-            Images.Add(bitmap1);
-            Images.Add(bitmap2);
-            Images.Add(bitmap3);
-
             if (Design.IsDesignMode) return;
-
-            this.WhenAnyValue(x => x.SelectedElementIndex).Subscribe(x =>
-            {
-                return;
-            });
         }
 
-        public AvaloniaList<Bitmap> Images { get; set; } = new();
+        protected async override Task OnActivate()
+        {
+            var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
+            Accounts.AddRange(accsDto.Select(x =>
+            {
+                //это позволяет нам прогрузить первое фото для профиля сразу
+                var acc = new Account(x, DataProvider);
+                var ph = acc.Photos[0].Value.Result;
+                return acc;
+            }));
 
-        [Reactive]
-        public int SelectedElementIndex { get; set; }
+            await base.OnActivate();
+        }
 
-        [Reactive]
-        public Bitmap? SelectedElement { get; set; }
+        protected override void OnDeactivate()
+        {
+            base.OnDeactivate();
+
+            Accounts.Clear();
+        }
+
+        public AvaloniaList<Account> Accounts { get; set; } = new();
     }
 }

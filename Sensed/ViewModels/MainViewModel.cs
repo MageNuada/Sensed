@@ -1,5 +1,5 @@
-﻿using Avalonia.Controls;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
+using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
@@ -8,16 +8,39 @@ public class MainViewModel : ViewModelBase
     public MainViewModel()
     {
     }
+    
+    #region Overriden
 
-    public void SetMainViewCommand()
+    protected async override Task OnActivate()
     {
-        if (Design.IsDesignMode) return;
+        await base.OnActivate();
 
-        ActiveViewModel = new PeopleViewModel(new StubDataProvider());
+        MainDataProvider = new StubDataProvider();
+
+        CurrentId = await MainDataProvider.Login("+79991234567");
+
+        ActiveViewModel?.Deactivate();
+
+        if (string.IsNullOrEmpty(CurrentId))
+        {
+            //Света, алло, тут вызов передача твоей вьюмодели контрола регистрации
+        }
+        else
+        {
+            ActiveViewModel = new PeopleViewModel(MainDataProvider);
+
+            await ActiveViewModel.Activate();
+        }
     }
 
-    public string Greeting => "Welcome to Sensed!";
+    #endregion
 
-    [Reactive]
-    public ConnectedViewModelBase? ActiveViewModel { get; set; }
+    /// <summary>
+    /// Активная в данный момент вьюмодель для приложения
+    /// </summary>
+    [Reactive] public ConnectedViewModelBase? ActiveViewModel { get; set; }
+
+    private IDataProvider? MainDataProvider { get; set; }
+
+    public string? CurrentId { get; private set; }
 }
