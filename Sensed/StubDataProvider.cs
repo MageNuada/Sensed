@@ -4,7 +4,6 @@ using Avalonia;
 using Sensed.Models;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Sensed;
@@ -68,13 +67,9 @@ internal class StubDataProvider : IDataProvider
 
     #endregion
 
-    public async Task<OperationResult> CreateAccount(string phone)
+    public Task<OperationResult> CreateAccount(string phone)
     {
-        await Task.Delay(1500);
-
-        CheckNumber(phone);
-
-        return OperationResult.Success;
+        return Task.Delay(1500).ContinueWith(x => { CheckNumber(phone); return OperationResult.Success; });
     }
 
     public Task<OperationResult> DeleteAccount()
@@ -97,21 +92,14 @@ internal class StubDataProvider : IDataProvider
         throw new NotImplementedException();
     }
 
-    public async Task<Bitmap> GetPhoto(string photoId)
+    public Task<Bitmap> GetPhoto(string photoId)
     {
-        await Task.Delay(100);
-        await Task.Delay(1500);
-
-        return _images[photoId];
+        return Task.Delay(150).ContinueWith(x => _images[photoId]);
     }
 
-    public async Task<string?> Login(string phone)
+    public Task<string?> Login(string phone)
     {
-        await Task.Delay(500);
-
-        CheckNumber(phone);
-
-        return CurrentId = _profiles[0].Id;
+        return Task.Delay(500).ContinueWith(x => { CheckNumber(phone); return CurrentId = _profiles[0].Id; });
     }
 
     public Task<OperationResult> MarkAccount(string id, AccountMark mark, string? description = null)
@@ -124,11 +112,9 @@ internal class StubDataProvider : IDataProvider
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters)
+    public Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters)
     {
-        await Task.Delay(500);
-
-        return _profiles;
+        return Task.Delay(500).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
     }
 
     public Task<string> SetAccountStatus(AccountStatus status)
@@ -141,14 +127,15 @@ internal class StubDataProvider : IDataProvider
         throw new NotImplementedException();
     }
 
-    public async Task<string?> VerifyAccount(string phone, string smsCode)
+    public Task<string?> VerifyAccount(string phone, string smsCode)
     {
-        await Task.Delay(1000);
-        CheckNumber(phone);
-
-        if (smsCode == "123456")
-            return CurrentId = _profiles[0].Id;
-        else
-            return null;
+        return Task.Delay(1000).ContinueWith(x =>
+        {
+            CheckNumber(phone);
+            if (smsCode == "123456")
+                return CurrentId = _profiles[0].Id;
+            else
+                return null;
+        });
     }
 }
