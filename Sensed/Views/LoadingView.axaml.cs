@@ -6,18 +6,11 @@ using System;
 
 namespace Sensed.Views
 {
-    public partial class LoadingView : ReactiveUserControl<LoadingViewModel>
+    public partial class LoadingView : ViewBase
     {
         public LoadingView()
         {
             InitializeComponent();
-
-            this.WhenAnyValue(x => x.ViewModel).Subscribe(x =>
-            {
-                if (x == null) return;
-
-                Loaded += x.OnViewLoaded;
-            });
         }
     }
 }

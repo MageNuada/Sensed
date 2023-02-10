@@ -7,7 +7,7 @@ using System;
 
 namespace Sensed.Views
 {
-    public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
+    public partial class PeopleView : ViewBase
     {
         private Carousel _carousel;
         private Button _left;
@@ -28,13 +28,6 @@ namespace Sensed.Views
             _right.Click += (s, e) => _carousel.Next();
             _transition.SelectionChanged += TransitionChanged;
             _orientation.SelectionChanged += TransitionChanged;
-
-            this.WhenAnyValue(x => x.ViewModel).Subscribe(x =>
-            {
-                if (x == null) return;
-
-                Loaded += x.OnViewLoaded;
-            });
         }
 
         private void TransitionChanged(object? sender, SelectionChangedEventArgs e)
