@@ -1,16 +1,9 @@
-using Avalonia.Controls;
-using Avalonia.ReactiveUI;
-using ReactiveUI;
-using Sensed.ViewModels;
-using System;
+namespace Sensed.Views;
 
-namespace Sensed.Views
+public partial class LoadingView : ViewBase
 {
-    public partial class LoadingView : ViewBase
+    public LoadingView()
     {
-        public LoadingView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

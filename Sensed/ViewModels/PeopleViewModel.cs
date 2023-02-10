@@ -1,11 +1,7 @@
-﻿using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Avalonia;
-using System;
+﻿using System;
 using Avalonia.Collections;
 using ReactiveUI.Fody.Helpers;
 using Avalonia.Controls;
-using ReactiveUI;
 using System.Threading.Tasks;
 using Sensed.Models;
 using System.Linq;

@@ -1,8 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ReactiveUI;
-using System;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;

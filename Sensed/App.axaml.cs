@@ -1,13 +1,8 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
 using Sensed.ViewModels;
 using Sensed.Views;
-using System.Threading.Tasks;
-using System.Xml;
-using System;
 
 namespace Sensed;
 

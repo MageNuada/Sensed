@@ -1,8 +1,5 @@
-﻿using Avalonia.Interactivity;
-using Avalonia.Threading;
+﻿using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
