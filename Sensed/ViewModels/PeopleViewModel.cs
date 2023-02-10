@@ -14,8 +14,6 @@ namespace Sensed.ViewModels
 {
     public class PeopleViewModel : ConnectedViewModelBase
     {
-        //private bool _imagesChanging;
-
         public PeopleViewModel() : base(null) { if (!Design.IsDesignMode) throw new Exception("For design view only!"); }
 
         public PeopleViewModel(IDataProvider dataProvider) : base(dataProvider)
@@ -23,18 +21,24 @@ namespace Sensed.ViewModels
             if (Design.IsDesignMode) return;
         }
 
-        protected async override Task OnActivate()
+        protected override Task OnInit()
         {
-            var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
-            Accounts.AddRange(accsDto.Select(x =>
+            return Task.Run(async () =>
             {
-                //это позволяет нам прогрузить первое фото для профиля сразу
-                var acc = new Account(x, DataProvider);
-                var ph = acc.Photos[0].Value.Result;
-                return acc;
-            }));
+                ShowLoading = true;
+                var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
+                Accounts.AddRange(accsDto.Select(x =>
+                {
+                    //return new Account(x, DataProvider);
+                    //это позволяет нам прогрузить первое фото для профиля сразу
+                    var acc = new Account(x, DataProvider);
+                    var ph = acc.Photos[0].Value.Result;
+                    return acc;
+                }));
 
-            await base.OnActivate();
+                ShowLoading = false;
+                return base.OnInit();
+            });
         }
 
         protected override void OnDeactivate()
@@ -45,5 +49,7 @@ namespace Sensed.ViewModels
         }
 
         public AvaloniaList<Account> Accounts { get; set; } = new();
+
+        [Reactive] public bool ShowLoading { get; set; }
     }
 }

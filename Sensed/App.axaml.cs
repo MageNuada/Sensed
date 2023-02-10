@@ -20,43 +20,16 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        MainViewModel? viewModel = new() { ActiveViewModel = new LoadingViewModel() };
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow() { DataContext = new LoadingViewModel() };
-
-            //desktop.MainWindow.Loaded += (s, e) => { vm.Activate(); };
+            desktop.MainWindow = new MainWindow() { DataContext = viewModel };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new LoadingView();
-
-            //singleViewPlatform.MainView.Loaded += (s, e) => { vm.Activate(); };
+            singleViewPlatform.MainView = new MainView() { DataContext = viewModel };
         }
-
-        Task.Run(async () =>
-        {
-            MainViewModel? viewModel = new();
-
-            await viewModel.Activate();
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                //viewModel.Activate().Wait();
-
-                if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                {
-                    desktop.MainWindow.DataContext = viewModel;
-
-                    //desktop.MainWindow.Loaded += (s, e) => { vm.Activate(); };
-                }
-                else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-                {
-                    singleViewPlatform.MainView = new MainView() { DataContext = viewModel };
-
-                    //singleViewPlatform.MainView.Loaded += (s, e) => { vm.Activate(); };
-                }
-            });
-        });
 
         base.OnFrameworkInitializationCompleted();
     }

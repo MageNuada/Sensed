@@ -17,7 +17,7 @@ namespace Sensed.Models
             Name = dto.Name;
             Description = dto.Description;
             Photos = dto.PhotosIds.Select(x =>
-            new Lazy<Task<Bitmap>>(async() => await
+            new Lazy<Task<Bitmap>>(async () => await
             _provider.GetPhoto(x))).ToList();
         }
 

@@ -1,4 +1,8 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using Avalonia.Interactivity;
+using Avalonia.Threading;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
@@ -8,29 +12,30 @@ public class MainViewModel : ViewModelBase
     public MainViewModel()
     {
     }
-    
+
     #region Overriden
 
-    protected async override Task OnActivate()
+    protected override Task OnInit()
     {
-        await base.OnActivate();
-
         MainDataProvider = new StubDataProvider();
 
-        CurrentId = await MainDataProvider.Login("+79991234567");
-
-        ActiveViewModel?.Deactivate();
-
-        if (string.IsNullOrEmpty(CurrentId))
+        return Task.Run(async () =>
         {
-            //Света, алло, тут вызов передача твоей вьюмодели контрола регистрации
-        }
-        else
-        {
-            ActiveViewModel = new PeopleViewModel(MainDataProvider);
+            CurrentId = await MainDataProvider.Login("+79991234567");
+            ActiveViewModel?.Deactivate();
 
-            await ActiveViewModel.Activate();
-        }
+            var resultTask = Task.CompletedTask;
+            if (string.IsNullOrEmpty(CurrentId))
+            {
+                //Света, алло, тут вызов передача твоей вьюмодели контрола регистрации
+            }
+            else
+            {
+                Dispatcher.UIThread.Post(() => ActiveViewModel = new PeopleViewModel(MainDataProvider));
+            }
+
+            return resultTask.ContinueWith(x => base.OnInit());
+        });
     }
 
     #endregion
@@ -38,7 +43,7 @@ public class MainViewModel : ViewModelBase
     /// <summary>
     /// Активная в данный момент вьюмодель для приложения
     /// </summary>
-    [Reactive] public ConnectedViewModelBase? ActiveViewModel { get; set; }
+    [Reactive] public ViewModelBase? ActiveViewModel { get; set; }
 
     private IDataProvider? MainDataProvider { get; set; }
 

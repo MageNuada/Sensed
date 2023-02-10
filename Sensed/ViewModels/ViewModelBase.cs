@@ -1,21 +1,40 @@
-﻿using ReactiveUI;
+﻿using Avalonia;
+using Avalonia.Interactivity;
+using ReactiveUI;
+using System;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {
-    public async Task Activate() { await OnActivate(); }
+    private bool _inited;
+
+    public Task Init()
+    {
+        if (_inited) return Task.CompletedTask; 
+        _inited = true; 
+        return OnInit();
+    }
+
+    public Task Activate() { return OnActivation(); }
 
     public void Deactivate() { OnDeactivate(); }
 
     public void Close() { OnClose(); }
 
-    protected virtual Task OnActivate() { return Task.FromResult(0); }
+    protected virtual Task OnActivation() { return Task.FromResult(0); }
+
+    protected virtual Task OnInit() { return Task.FromResult(0); }
 
     protected virtual void OnDeactivate() { }
 
     protected virtual void OnClose() { }
+
+    internal void OnViewLoaded(object? sender, RoutedEventArgs e)
+    {
+        Init();
+    }
 }
 
 public class ConnectedViewModelBase : ViewModelBase

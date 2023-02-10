@@ -1,10 +1,13 @@
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+using ReactiveUI;
+using Sensed.ViewModels;
 using System;
 
 namespace Sensed.Views
 {
-    public partial class PeopleView : UserControl
+    public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
     {
         private Carousel _carousel;
         private Button _left;
@@ -25,6 +28,13 @@ namespace Sensed.Views
             _right.Click += (s, e) => _carousel.Next();
             _transition.SelectionChanged += TransitionChanged;
             _orientation.SelectionChanged += TransitionChanged;
+
+            this.WhenAnyValue(x => x.ViewModel).Subscribe(x =>
+            {
+                if (x == null) return;
+
+                Loaded += x.OnViewLoaded;
+            });
         }
 
         private void TransitionChanged(object? sender, SelectionChangedEventArgs e)
