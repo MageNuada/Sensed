@@ -96,7 +96,7 @@
 
     </Grid>
     
-    <views:LoadingView Background="#777777" IsVisible="{Binding ShowLoading}" />
+    <views:LoadingView Background="#7f7f7f7f" IsVisible="{Binding ShowLoading}" />
   </Grid>
 
 </UserControl>
