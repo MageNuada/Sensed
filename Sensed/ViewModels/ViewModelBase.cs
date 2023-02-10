@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ReactiveUI;
 using System;
@@ -12,6 +13,7 @@ public class ViewModelBase : ReactiveObject
 
     public Task Init()
     {
+        if(Design.IsDesignMode) return Task.CompletedTask;
         if (_inited) return Task.CompletedTask; 
         _inited = true; 
         return OnInit();
