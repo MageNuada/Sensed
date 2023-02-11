@@ -120,7 +120,7 @@ internal class StubDataProvider : IDataProvider
 
     public Task<OperationResult> MarkAccount(string id, AccountMark mark, string? description = null)
     {
-        throw new NotImplementedException();
+        return Task.Delay(50).ContinueWith(x => OperationResult.Success);
     }
 
     public Task<OperationResult> ModifyAccount(string description, IEnumerable<object> photos, IEnumerable<object> tags)

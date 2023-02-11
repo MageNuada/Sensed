@@ -30,7 +30,7 @@ namespace Sensed.Models
             Desires.AddRange(dto.Desires);
         }
 
-        public string? Id { get; set; }
+        public string Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DateTime Birthday { get; set; }

@@ -38,9 +38,9 @@ public class SearchFilter
 
 public interface IAccount
 {
-    string? Description { get; set; }
-    string? Id { get; set; }
+    string Id { get; set; }
     string? Name { get; set; }
+    string? Description { get; set; }
     DateTime Birthday { get; set; }
     string? SexualOrientation { get; set; }
     string? GenderIdentity{ get; set; }
@@ -53,7 +53,7 @@ public class AccountDTO : IAccount
 {
     public AccountDTO() { }
 
-    public string? Id { get; set; }
+    public string Id { get; set; }
     public string? Name { get; set; }
     public DateTime Birthday { get; set; }
     public string? Description { get; set; }

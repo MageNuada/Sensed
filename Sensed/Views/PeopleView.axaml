@@ -66,8 +66,14 @@
                   <!--перенести на уровень выше, чтобы не создавать кнопки для всех элементов.
                   Или не надо? В филде у каждого свои.-->
                   <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20">
-                    <Button Background="DarkSlateBlue" Content="-" Margin="0,0,10,0" Width="20" />
-                    <Button Background="DarkSlateBlue" Content="like" Width="40" />
+                    <Button Background="DarkSlateBlue" Content="-" Margin="0,0,10,0" Width="20"
+                            Command="{Binding $parent[Carousel].DataContext.DislikeCommand}"
+                            CommandParameter="{Binding}"
+                            x:CompileBindings="False"/>
+                    <Button Background="DarkSlateBlue" Content="like" Width="40"
+                            Command="{Binding $parent[Carousel].DataContext.LikeCommand}"
+                            CommandParameter="{Binding}"
+                            x:CompileBindings="False"/>
                   </StackPanel>
                 </Grid>
               </Grid>

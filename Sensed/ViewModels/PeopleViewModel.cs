@@ -45,6 +45,37 @@ namespace Sensed.ViewModels
             Accounts.Clear();
         }
 
+        #region Commands
+
+        public async Task LikeCommand(object o)
+        {
+            if(Design.IsDesignMode) return;
+            if (o is not Account account) return;
+
+            RemoveAccountFromCarousel(account);
+            await DataProvider.MarkAccount(account.Id, AccountMark.Like);
+        }
+
+        public async Task DislikeCommand(object o)
+        {
+            if (Design.IsDesignMode) return;
+            if (o is not Account account) return;
+
+            RemoveAccountFromCarousel(account);
+            await DataProvider.MarkAccount(account.Id, AccountMark.Dislike);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void RemoveAccountFromCarousel(Account account)
+        {
+            Accounts.Remove(account);
+        }
+
+        #endregion
+
         public AvaloniaList<Account> Accounts { get; set; } = new();
 
         [Reactive] public bool ShowLoading { get; set; }
