@@ -5,6 +5,7 @@ using Sensed.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Sensed.Data;
 
@@ -22,6 +23,11 @@ internal class StubDataProvider : IDataProvider
                 Id = Guid.NewGuid().ToString(),
                 Name="Test1",
                 Description="i love new",
+                GenderIdentity = "Man",
+                Position = "Moscow, 5 km from you",
+                SexualOrientation = "Straight",
+                LastSeen = "5 minutes ago",
+                RelationsStatus = "Single",
                 PhotosIds = new[] { "1", "2", "3" }
             },
             new AccountDTO
@@ -29,6 +35,11 @@ internal class StubDataProvider : IDataProvider
                 Id = Guid.NewGuid().ToString(),
                 Name="Test2",
                 Description="i am newbie here",
+                GenderIdentity = "Woman",
+                Position = "Moscow, 1 km from you",
+                SexualOrientation = "Straight",
+                LastSeen = "last seen",
+                RelationsStatus = "Single",
                 PhotosIds = new[] { "4", "5", "6" }
             },
             new AccountDTO
@@ -36,6 +47,11 @@ internal class StubDataProvider : IDataProvider
                 Id = Guid.NewGuid().ToString(),
                 Name="Test3",
                 Description="0123456789",
+                GenderIdentity = "Woman",
+                Position = "Moscow, 15 km from you",
+                SexualOrientation = "Bisexual",
+                LastSeen = "last seen",
+                RelationsStatus = "Couple",
                 PhotosIds = new[] { "7", "8", "9" }
             },
         };
@@ -87,7 +103,7 @@ internal class StubDataProvider : IDataProvider
         throw new NotImplementedException();
     }
 
-    public Task<AccountDTO> GetMatchedAccounts()
+    public Task<IEnumerable<AccountDTO>> GetMatchedAccounts()
     {
         throw new NotImplementedException();
     }
@@ -136,6 +152,22 @@ internal class StubDataProvider : IDataProvider
                 return CurrentId = _profiles[0].Id;
             else
                 return null;
+        });
+    }
+
+    public Task<IEnumerable<(string parameter, InfoType type)>> GetSGParams()
+    {
+        return Task.Delay(100).ContinueWith(x =>
+        {
+            return new[]
+            {
+                ("Man", InfoType.Gender),
+                ("Woman", InfoType.Gender),
+                ("Straight", InfoType.Orientation),
+                ("bisexual", InfoType.Orientation),
+                ("Kink", InfoType.Desire),
+                ("Casual", InfoType.Desire),
+            } as IEnumerable<(string parameter, InfoType type)>;
         });
     }
 }

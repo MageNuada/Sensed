@@ -1,5 +1,6 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
+using Sensed.Data;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;

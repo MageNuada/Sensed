@@ -33,11 +33,11 @@ public partial class PeopleView : ViewBase
         {
             case 0:
                 //_carousel.PageTransition = null;
-                _carousel.PageTransition = new Avalonia.Animation.CompositePageTransition()
+                _carousel.PageTransition = new CompositePageTransition()
                 { PageTransitions = new() 
                 { 
-                    new CrossFade(TimeSpan.FromSeconds(0.25)),
-                    new PageSlide(TimeSpan.FromSeconds(0.25), _orientation.SelectedIndex == 0 ? PageSlide.SlideAxis.Horizontal : PageSlide.SlideAxis.Vertical)
+                    new CrossFade(TimeSpan.FromSeconds(0.5)),
+                    new PageSlide(TimeSpan.FromSeconds(0.5), _orientation.SelectedIndex == 0 ? PageSlide.SlideAxis.Horizontal : PageSlide.SlideAxis.Vertical)
                 } };
                 break;
             case 1:

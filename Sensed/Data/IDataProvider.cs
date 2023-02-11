@@ -40,6 +40,12 @@ public interface IDataProvider
     Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters);
 
     /// <summary>
+    /// Получение списка гендеров, сексуальных ориентаций и прочих выбираемых параметров для профиля с сервера
+    /// </summary>
+    /// <returns></returns>
+    Task<IEnumerable<(string parameter, InfoType type)>> GetSGParams();
+
+    /// <summary>
     /// Лайк/дизлайк аккаунта
     /// </summary>
     /// <param name="id"></param>
@@ -50,7 +56,7 @@ public interface IDataProvider
     /// Получить список совпавших аккаунтов. Вызывается каждые Х секунд + должна вызываться после лайка для проверки?
     /// </summary>
     /// <returns></returns>
-    Task<AccountDTO> GetMatchedAccounts();
+    Task<IEnumerable<AccountDTO>> GetMatchedAccounts();
 
     /// <summary>
     /// Получить статус аккаунта в плане оплаченности

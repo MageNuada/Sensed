@@ -32,17 +32,19 @@
           <Carousel.ItemTemplate>
             <DataTemplate x:DataType="model:Account">
               <Grid RowDefinitions="*,*">
+                
                 <!--<Carousel Grid.Row="0" Items="{Binding Photos}">
-                <Carousel.PageTransition>
-                  <PageSlide Duration="0.25" Orientation="Horizontal" />
-                </Carousel.PageTransition>
-                <Carousel.ItemTemplate>
-                  <DataTemplate>
-                    <Image Source="{Binding Value^}" />
-                  </DataTemplate>
-                </Carousel.ItemTemplate>
-              </Carousel>-->
-                <ListBox VirtualizationMode="None" Grid.Row="0" Items="{Binding Photos}">
+                  <Carousel.PageTransition>
+                    <PageSlide Duration="0.25" Orientation="Horizontal" />
+                  </Carousel.PageTransition>
+                  <Carousel.ItemTemplate>
+                    <DataTemplate>
+                      <Image Source="{Binding Value^}" />
+                    </DataTemplate>
+                  </Carousel.ItemTemplate>
+                </Carousel>-->
+
+                <ListBox Grid.Row="0" Items="{Binding Photos}">
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Vertical" />
@@ -54,11 +56,12 @@
                     </DataTemplate>
                   </ListBox.ItemTemplate>
                 </ListBox>
+                
                 <Grid Grid.Row="1">
                   <StackPanel Margin="20" Orientation="Vertical">
-                    <TextBlock FontWeight="Bold" Text="{Binding Name}" Margin="0,0,0,10" />
-                    <TextBlock Text="местоположение и ещё что-то" Margin="0,0,0,40" />
-                    <TextBlock Text="{Binding Description}" Margin="0,0,0,10" />
+                    <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="{Binding Name}" Margin="0,0,0,10" />
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Summary}" Margin="0,0,0,40" TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Description}" Margin="0,0,0,10" />
                   </StackPanel>
                   <!--перенести на уровень выше, чтобы не создавать кнопки для всех элементов.
                   Или не надо? В филде у каждого свои.-->
