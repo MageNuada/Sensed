@@ -1,6 +1,10 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
+using Sensed.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
@@ -19,9 +23,16 @@ public class MainViewModel : ViewModelBase
 
         return Task.Run(async () =>
         {
-            CurrentId = await MainDataProvider.Login("+79991234567");
-            ActiveViewModel?.Deactivate();
+            var idTask = MainDataProvider.Login("+79991234567");
+            var paramsTask = MainDataProvider.GetSGParams();
+            CurrentId = await idTask;
+            VariationsList = (await paramsTask).ToArray();
 
+            //await Task.WhenAll(paramsTask, idTask);
+            //CurrentId = idTask.Result;
+            //VariationsList = paramsTask.Result.ToArray();
+
+            ActiveViewModel?.Deactivate();
             var resultTask = Task.CompletedTask;
             if (string.IsNullOrEmpty(CurrentId))
             {
@@ -35,7 +46,7 @@ public class MainViewModel : ViewModelBase
             return resultTask.ContinueWith(x => base.OnInit());
         });
     }
-
+    
     #endregion
 
     /// <summary>
@@ -46,4 +57,6 @@ public class MainViewModel : ViewModelBase
     private IDataProvider? MainDataProvider { get; set; }
 
     public string? CurrentId { get; private set; }
+
+    public (string parameter, InfoType type)[] VariationsList { get; private set; } = Array.Empty<(string, InfoType)>();
 }
