@@ -75,6 +75,14 @@
                             CommandParameter="{Binding}"
                             x:CompileBindings="False"/>
                   </StackPanel>
+                  <Button HorizontalAlignment="Right" Content="SuperStar"
+                          Command="{Binding $parent[Carousel].DataContext.BrightLikeCommand}"
+                          CommandParameter="{Binding}"
+                          x:CompileBindings="False"/>
+                  <Button HorizontalAlignment="Right" Content="Report" Margin="0,0,0,60"
+                          Command="{Binding $parent[Carousel].DataContext.BanCommand}"
+                          CommandParameter="{Binding}"
+                          x:CompileBindings="False"/>
                 </Grid>
               </Grid>
             </DataTemplate>

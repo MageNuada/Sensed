@@ -11,7 +11,13 @@ namespace Sensed.ViewModels
 {
     public class PeopleViewModel : ConnectedViewModelBase
     {
-        public PeopleViewModel() : base(null) { if (!Design.IsDesignMode) throw new Exception("For design view only!"); }
+        public PeopleViewModel() : base(null)
+        {
+            if (!Design.IsDesignMode) throw new Exception("For design view only!");
+            Accounts.Add(new Account(new AccountDTO(), null
+                /*не нужно, потому что список фото пустой*/
+                /*new StubDataProvider()*/));
+        }
 
         public PeopleViewModel(IDataProvider dataProvider) : base(dataProvider)
         {
@@ -52,8 +58,7 @@ namespace Sensed.ViewModels
             if(Design.IsDesignMode) return;
             if (o is not Account account) return;
 
-            RemoveAccountFromCarousel(account);
-            await DataProvider.MarkAccount(account.Id, AccountMark.Like);
+            await MarkAccount(account, AccountMark.Like);
         }
 
         public async Task DislikeCommand(object o)
@@ -61,13 +66,36 @@ namespace Sensed.ViewModels
             if (Design.IsDesignMode) return;
             if (o is not Account account) return;
 
-            RemoveAccountFromCarousel(account);
-            await DataProvider.MarkAccount(account.Id, AccountMark.Dislike);
+            await MarkAccount(account, AccountMark.Dislike);
+        }
+
+        public async Task BanCommand(object o)
+        {
+            if (Design.IsDesignMode) return;
+            if (o is not Account account) return;
+
+            await MarkAccount(account, AccountMark.Banned);
+        }
+
+        public async Task BrightLikeCommand(object o)
+        {
+            if (Design.IsDesignMode) return;
+            if (o is not Account account) return;
+
+            await MarkAccount(account, AccountMark.BrightLike);
         }
 
         #endregion
 
         #region Private Methods
+
+        private async Task MarkAccount(Account account, AccountMark mark)
+        {
+            if (account == null) return;
+
+            RemoveAccountFromCarousel(account);
+            await DataProvider.MarkAccount(account.Id, mark);
+        }
 
         private void RemoveAccountFromCarousel(Account account)
         {

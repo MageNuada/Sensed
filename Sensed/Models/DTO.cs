@@ -8,6 +8,7 @@ public enum AccountMark
     Like,
     Dislike,
     Banned,
+    BrightLike,
 }
 
 public enum OperationResult
