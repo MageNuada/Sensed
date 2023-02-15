@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 
 namespace Sensed.Views;
 
-public class ViewBase : ReactiveUserControl<ViewModelBase>
+public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
 {
     public ViewBase()
     {

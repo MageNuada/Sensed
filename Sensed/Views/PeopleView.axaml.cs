@@ -1,10 +1,11 @@
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Sensed.ViewModels;
 using System;
 
 namespace Sensed.Views;
 
-public partial class PeopleView : ViewBase
+public partial class PeopleView : ViewBase<PeopleViewModel>
 {
     private Carousel _carousel;
     private Button _left;
