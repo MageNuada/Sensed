@@ -1,4 +1,5 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
@@ -52,6 +53,8 @@ public class MainViewModel : ViewModelBase
     /// Активная в данный момент вьюмодель для приложения
     /// </summary>
     [Reactive] public ViewModelBase? ActiveViewModel { get; set; }
+
+    internal IStorageProvider? StorageProvider { get; set; }
 
     private IDataProvider? MainDataProvider { get; set; }
 

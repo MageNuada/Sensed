@@ -14,14 +14,12 @@
   </Design.DataContext>
 
   <Grid>
-    <Grid RowDefinitions="auto, *, auto, auto">
-      <TextBlock Grid.Row="0" Classes="h2">An items control that displays its items as pages that fill the control.</TextBlock>
-
+    <Grid RowDefinitions="*, auto, auto">
       <!--MaxWidth="1000" HorizontalAlignment="Stretch"-->
       <Grid ColumnDefinitions="Auto,*,Auto"
             VerticalAlignment="Stretch"
             Margin="0 16 0 0"
-            Grid.Row="1">
+            Grid.Row="0">
         <Button Name="left" Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
           <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black"/>
         </Button>
@@ -93,7 +91,7 @@
         </Button>
       </Grid>
 
-      <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="4">
+      <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="4">
         <TextBlock VerticalAlignment="Center">Transition</TextBlock>
         <ComboBox Name="transition" SelectedIndex="1" VerticalAlignment="Center">
           <ComboBoxItem>None</ComboBoxItem>
@@ -103,7 +101,7 @@
         </ComboBox>
       </StackPanel>
 
-      <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="4">
+      <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="4">
         <TextBlock VerticalAlignment="Center">Orientation</TextBlock>
         <ComboBox Name="orientation" SelectedIndex="0" VerticalAlignment="Center">
           <ComboBoxItem>Horizontal</ComboBoxItem>

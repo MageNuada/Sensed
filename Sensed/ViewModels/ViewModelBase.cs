@@ -10,6 +10,7 @@ public class ViewModelBase : ReactiveObject
 {
     private bool _inited;
 
+
     public Task Init()
     {
         if(Design.IsDesignMode) return Task.CompletedTask;

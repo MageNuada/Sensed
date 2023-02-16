@@ -1,12 +1,18 @@
+using Avalonia;
 using Sensed.ViewModels;
 
-namespace Sensed.Views
+namespace Sensed.Views;
+
+public partial class FillProfileView : ViewBase<FillProfileViewModel>
 {
-    public partial class FillProfileView : ViewBase<FillProfileViewModel>
+    public FillProfileView()
     {
-        public FillProfileView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        ViewModel?.SetSize(finalSize);
+        return base.ArrangeOverride(finalSize);
     }
 }
