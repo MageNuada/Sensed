@@ -1,21 +1,20 @@
 ﻿using ReactiveUI.Fody.Helpers;
 using Sensed.Models;
 
-namespace Sensed.ViewModels
+namespace Sensed.ViewModels;
+
+public class ProfileViewModel : ViewModelBase
 {
-    public class ProfileViewModel : ViewModelBase
+    public ProfileViewModel()
     {
-        public ProfileViewModel()
-        {
-            Account = new Account(new AccountDTO(), null);
-        }
-
-
-        public ProfileViewModel(Account account)
-        {
-            Account = account;
-        }
-
-        [Reactive] public Account Account { get; set; }
+        Account = new Account(new AccountDTO(), null);
     }
+
+
+    public ProfileViewModel(Account account)
+    {
+        Account = account;
+    }
+
+    [Reactive] public Account Account { get; set; }
 }
