@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using ReactiveUI;
 using Sensed.Data;
 using System.Threading.Tasks;
@@ -32,11 +31,6 @@ public class ViewModelBase : ReactiveObject
     protected virtual void OnDeactivate() { }
 
     protected virtual void OnClose() { }
-
-    internal void OnViewLoaded(object? sender, RoutedEventArgs e)
-    {
-        Init();
-    }
 }
 
 public class ConnectedViewModelBase : ViewModelBase

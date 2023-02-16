@@ -5,7 +5,6 @@ using Sensed.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Numerics;
 
 namespace Sensed.Data;
 
@@ -95,7 +94,7 @@ internal class StubDataProvider : IDataProvider
 
     public Task<IEnumerable<AccountDTO>> GetAccounts(IEnumerable<string> ids, IEnumerable<SearchFilter>? filters = null)
     {
-        throw new NotImplementedException();
+        return Task.Delay(1500).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
     }
 
     public Task<AccountStatus> GetAccountStatus()

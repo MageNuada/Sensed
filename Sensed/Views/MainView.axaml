@@ -13,7 +13,27 @@
     <local:MainViewModel />
   </Design.DataContext>
 
-  <ContentControl Content="{Binding ActiveViewModel}"
-                  IsVisible="{Binding ActiveViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
-  
+  <Grid RowDefinitions="*, auto">
+    <ContentControl Grid.Row="0" Content="{Binding ActiveViewModel}"
+                IsVisible="{Binding ActiveViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+    <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*">
+      <Button Content="Look around" HorizontalContentAlignment="Center"
+              Command="{Binding SelectTabCommand}"
+              CommandParameter="0" x:CompileBindings="False"
+        Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+      <Button Content="Chats" HorizontalContentAlignment="Center"
+              Command="{Binding SelectTabCommand}"
+              CommandParameter="1" x:CompileBindings="False"
+              Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+      <Button Content="Likes" HorizontalContentAlignment="Center"
+              Command="{Binding SelectTabCommand}"
+              CommandParameter="2" x:CompileBindings="False"
+              Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+      <Button Content="Profile" HorizontalContentAlignment="Center"
+              Command="{Binding SelectTabCommand}"
+              CommandParameter="3" x:CompileBindings="False"
+              Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    </Grid>
+  </Grid>
+
 </UserControl>

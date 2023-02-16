@@ -2,9 +2,9 @@ using Sensed.ViewModels;
 
 namespace Sensed.Views;
 
-public partial class ProfileView : ViewBase<ProfileViewModel>
+public partial class AccountView : ViewBase<AccountViewModel>
 {
-    public ProfileView()
+    public AccountView()
     {
         InitializeComponent();
     }
