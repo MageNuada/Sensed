@@ -41,6 +41,8 @@ public class MainViewModel : ViewModelBase
             else
             {
                 Dispatcher.UIThread.Post(() => ActiveViewModel = new PeopleViewModel(MainDataProvider));
+                //Dispatcher.UIThread.Post(() => ActiveViewModel = 
+                //new FillProfileViewModel(new Account(new AccountDTO(), MainDataProvider), MainDataProvider, StorageProvider));
             }
 
             return resultTask.ContinueWith(x => base.OnInit());
