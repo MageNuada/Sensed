@@ -1,11 +1,14 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using DynamicData;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +25,14 @@ public class MainViewModel : ViewModelBase
     protected override Task OnInit()
     {
         MainDataProvider = new StubDataProvider();
+
+        this.WhenAnyValue(x => x.ActiveViewModel).Subscribe(x =>
+        {
+            if (x != null && !ExistedViewModels.Exists(y => y.GetType() == x.GetType()))
+            {
+                ExistedViewModels.Add(x);
+            }
+        });
 
         return Task.Run(async () =>
         {
@@ -53,25 +64,41 @@ public class MainViewModel : ViewModelBase
 
     #endregion
 
-    public void GetOnPreviousView()
+    public bool GetOnPreviousView()
     {
-        if (Design.IsDesignMode) return;
+        if (Design.IsDesignMode) return false;
 
-        if (OpenedViewModels.TryPop(out var vm))
+        if (OpenedViewModels.Any())
+        {
+            var vm = OpenedViewModels[^1];
+            OpenedViewModels.RemoveAt(OpenedViewModels.Count - 1);
             Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
+            return true;
+        }
+        else if(ActiveViewModel?.GetType() != typeof(PeopleViewModel))
+        {
+            var vm = ExistedViewModels.Find(x => x.GetType() == typeof(PeopleViewModel));
+            Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
+            return true;
+        }
+
+        return false;
     }
 
     public void OpenProfileEditCommand()
     {
         if (Design.IsDesignMode) return;
 
-        OpenedViewModels.Push(ActiveViewModel);
+        OpenedViewModels.Add(ActiveViewModel);
         Dispatcher.UIThread.Post(() => ActiveViewModel = new FillProfileViewModel(CurrentProfile, MainDataProvider, StorageProvider));
     }
 
     public void OpenSettingsCommand()
     {
         if (Design.IsDesignMode) return;
+
+        OpenedViewModels.Add(ActiveViewModel);
+        Dispatcher.UIThread.Post(() => ActiveViewModel = new SettingsViewModel());
     }
 
     public void SelectTabCommand(object o)
@@ -83,17 +110,25 @@ public class MainViewModel : ViewModelBase
         ViewModelBase vm = index switch
         {
             0 => new PeopleViewModel(MainDataProvider),
-            1 => new PeopleViewModel(MainDataProvider),
-            2 => new PeopleViewModel(MainDataProvider),
+            1 => new ChatsViewModel(MainDataProvider),
+            2 => new LikedAccountsViewModel(MainDataProvider),
             3 => new AccountViewModel(MainDataProvider, CurrentProfile),
             _ => throw new ArgumentException("Wrong tab selected!"),
         };
 
-        OpenedViewModels.Push(ActiveViewModel);
+        vm = ExistedViewModels.FirstOrDefault(x => x.GetType() == vm.GetType()) ?? vm;
+
+        //if (!OpenedViewModels.Any() || OpenedViewModels.Last() != ActiveViewModel)
+        //{
+        //    OpenedViewModels.Add(ActiveViewModel);
+        //}
+
         Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
     }
 
-    private ConcurrentStack<ViewModelBase?> OpenedViewModels { get; } = new();
+    private List<ViewModelBase> ExistedViewModels { get; } = new();
+
+    private List<ViewModelBase?> OpenedViewModels { get; } = new();
 
     /// <summary>
     /// Активная в данный момент вьюмодель для приложения

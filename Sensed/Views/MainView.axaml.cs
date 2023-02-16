@@ -16,4 +16,17 @@ public partial class MainView : ViewBase<MainViewModel>
                 ViewModel.StorageProvider = ((this as Visual)?.GetVisualRoot() as TopLevel)?.StorageProvider;
         });
     }
+
+    public bool OnBackButton(int keyCode, object? e)
+    {
+        if (ViewModel == null) return false;
+
+        if(ViewModel.GetOnPreviousView()) return true;
+
+        //if not handled
+        return false;
+
+        //if handled
+        return true;
+    }
 }

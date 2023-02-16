@@ -1,6 +1,5 @@
-﻿namespace Sensed.ViewModels
+﻿namespace Sensed.ViewModels;
+
+public class LoadingViewModel : ViewModelBase
 {
-    public class LoadingViewModel : ViewModelBase
-    {
-    }
 }

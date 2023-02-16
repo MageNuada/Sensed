@@ -25,6 +25,11 @@ public class ProfileImage : ReactiveObject
     [Reactive] public float Width { get; set; } = 102.4f;
 
     [Reactive] public float Height { get; set; } = 76.8f;
+
+    public override string ToString()
+    {
+        return Image?.ToString() ?? " NULL";
+    }
 }
 
 public class FillProfileViewModel : ConnectedViewModelBase
@@ -54,23 +59,18 @@ public class FillProfileViewModel : ConnectedViewModelBase
         return Task.WhenAll(Refresh(), base.OnInit());
     }
 
+    protected override void OnDeactivate()
+    {
+        Save();
+
+        base.OnDeactivate();
+    }
+
     #endregion
 
     public void Save()
     {
         if (Design.IsDesignMode || Owner == null) return;
-
-        //Owner.Photos = Images.Where(x => x.Image != null)
-        //    .Select(x =>
-        //    {
-        //        Task<Bitmap> task = Task.Run(() =>
-        //        {
-        //            Bitmap result = x.Image;
-        //            return Task.FromResult(result);
-        //        });
-
-        //        return new Lazy<Task<Bitmap>>(task);
-        //    }).ToList();
 
         Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
     }

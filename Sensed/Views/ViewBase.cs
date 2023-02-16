@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using Sensed.ViewModels;
 
@@ -10,9 +11,20 @@ public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
     {
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        if (Design.IsDesignMode) return;
+
+        ViewModel?.Activate();
+    }
+
     protected override void OnLoaded()
     {
         base.OnLoaded();
+
+        if (Design.IsDesignMode) return;
 
         ViewModel?.Init();
     }
@@ -20,6 +32,8 @@ public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         ViewModel?.Deactivate();
+
+        if (Design.IsDesignMode) return;
 
         base.OnDetachedFromVisualTree(e);
     }

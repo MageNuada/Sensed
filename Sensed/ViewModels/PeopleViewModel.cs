@@ -11,6 +11,9 @@ namespace Sensed.ViewModels;
 
 public class PeopleViewModel : ConnectedViewModelBase
 {
+    private AvaloniaList<ProfileViewModel> _accs = null;
+    private int _selectedIndex;
+
     public PeopleViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
@@ -44,10 +47,23 @@ public class PeopleViewModel : ConnectedViewModelBase
         });
     }
 
+    protected override Task OnActivation()
+    {
+        if (_accs != null)
+        {
+            Accounts = _accs;
+            SelectedProfileIndex = _selectedIndex;
+        }
+
+        return base.OnActivation();
+    }
+
     protected override void OnDeactivate()
     {
         base.OnDeactivate();
 
+        _accs = new(Accounts);
+        _selectedIndex = SelectedProfileIndex;
         Accounts.Clear();
     }
 
@@ -55,7 +71,7 @@ public class PeopleViewModel : ConnectedViewModelBase
 
     public async Task LikeCommand(object o)
     {
-        if(Design.IsDesignMode) return;
+        if (Design.IsDesignMode) return;
         if (o is not ProfileViewModel account) return;
 
         await MarkAccount(account, AccountMark.Like);
@@ -104,7 +120,9 @@ public class PeopleViewModel : ConnectedViewModelBase
 
     #endregion
 
-    public AvaloniaList<ProfileViewModel> Accounts { get; set; } = new();
+    [Reactive] public AvaloniaList<ProfileViewModel> Accounts { get; set; } = new();
 
     [Reactive] public bool ShowLoading { get; set; }
+
+    [Reactive] public int SelectedProfileIndex { get; set; }
 }

@@ -7,14 +7,20 @@ namespace Sensed.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {
+    private static int _counter = 0;
     private bool _inited;
+    private int _id;
 
+    public ViewModelBase()
+    {
+        _id = _counter++;
+    }
 
     public Task Init()
     {
-        if(Design.IsDesignMode) return Task.CompletedTask;
-        if (_inited) return Task.CompletedTask; 
-        _inited = true; 
+        if (Design.IsDesignMode) return Task.CompletedTask;
+        if (_inited) return Task.CompletedTask;
+        _inited = true;
         return OnInit();
     }
 
@@ -31,6 +37,11 @@ public class ViewModelBase : ReactiveObject
     protected virtual void OnDeactivate() { }
 
     protected virtual void OnClose() { }
+
+    public override string ToString()
+    {
+        return $"{base.ToString()} id: {_id}";
+    }
 }
 
 public class ConnectedViewModelBase : ViewModelBase

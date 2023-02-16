@@ -5,6 +5,8 @@ using Application = Android.App.Application;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
+using Android.Runtime;
+using Android.Views;
 
 namespace Sensed.Android;
 
@@ -27,5 +29,15 @@ public class SplashActivity : AvaloniaSplashActivity<App>
         base.OnResume();
 
         StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+    }
+
+    public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent? e)
+    {
+        if(keyCode == Keycode.Back)
+        {
+        
+        }
+
+        return base.OnKeyUp(keyCode, e);
     }
 }

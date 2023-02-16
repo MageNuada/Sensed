@@ -45,7 +45,7 @@
           </ItemsControl>
           <TextBox HorizontalAlignment="Stretch" Margin="20" Watermark="Your description" UseFloatingWatermark="True"/>
         </StackPanel>
-        <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"
+        <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Background="Green"
                 Command="{Binding $parent[UserControl; 1].DataContext.GetOnPreviousView}" x:CompileBindings="False"/>
       </Grid>
     </ScrollViewer>
