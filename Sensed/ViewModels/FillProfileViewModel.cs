@@ -42,6 +42,8 @@ public class FillProfileViewModel : ConnectedViewModelBase
         StorageProvider = storageProvider ?? throw new ArgumentNullException(nameof(storageProvider), "Storage provider cannot be null!");
     }
 
+    #region Overriden
+
     protected override Task OnActivation()
     {
         return base.OnActivation();
@@ -50,6 +52,27 @@ public class FillProfileViewModel : ConnectedViewModelBase
     protected override Task OnInit()
     {
         return Task.WhenAll(Refresh(), base.OnInit());
+    }
+
+    #endregion
+
+    public void Save()
+    {
+        if (Design.IsDesignMode || Owner == null) return;
+
+        //Owner.Photos = Images.Where(x => x.Image != null)
+        //    .Select(x =>
+        //    {
+        //        Task<Bitmap> task = Task.Run(() =>
+        //        {
+        //            Bitmap result = x.Image;
+        //            return Task.FromResult(result);
+        //        });
+
+        //        return new Lazy<Task<Bitmap>>(task);
+        //    }).ToList();
+
+        Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
     }
 
     private Task Refresh()

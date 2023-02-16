@@ -14,9 +14,9 @@ namespace Sensed.ViewModels
         public PeopleViewModel() : base(null)
         {
             if (!Design.IsDesignMode) throw new Exception("For design view only!");
-            Accounts.Add(new Account(new AccountDTO(), null
+            Accounts.Add(new ProfileViewModel(new Account(new AccountDTO(), null
                 /*не нужно, потому что список фото пустой*/
-                /*new StubDataProvider()*/));
+                /*new StubDataProvider()*/)));
         }
 
         public PeopleViewModel(IDataProvider dataProvider) : base(dataProvider)
@@ -32,7 +32,7 @@ namespace Sensed.ViewModels
                 var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
                 Accounts.AddRange(accsDto.Select(x =>
                 {
-                    return new Account(x, DataProvider);
+                    return new ProfileViewModel(new Account(x, DataProvider));
                     //это позволяет нам прогрузить первое фото для профиля сразу
                     //var acc = new Account(x, DataProvider);
                     //var ph = acc.Photos[0].Value.Result;
@@ -56,7 +56,7 @@ namespace Sensed.ViewModels
         public async Task LikeCommand(object o)
         {
             if(Design.IsDesignMode) return;
-            if (o is not Account account) return;
+            if (o is not ProfileViewModel account) return;
 
             await MarkAccount(account, AccountMark.Like);
         }
@@ -64,7 +64,7 @@ namespace Sensed.ViewModels
         public async Task DislikeCommand(object o)
         {
             if (Design.IsDesignMode) return;
-            if (o is not Account account) return;
+            if (o is not ProfileViewModel account) return;
 
             await MarkAccount(account, AccountMark.Dislike);
         }
@@ -72,7 +72,7 @@ namespace Sensed.ViewModels
         public async Task BanCommand(object o)
         {
             if (Design.IsDesignMode) return;
-            if (o is not Account account) return;
+            if (o is not ProfileViewModel account) return;
 
             await MarkAccount(account, AccountMark.Banned);
         }
@@ -80,7 +80,7 @@ namespace Sensed.ViewModels
         public async Task BrightLikeCommand(object o)
         {
             if (Design.IsDesignMode) return;
-            if (o is not Account account) return;
+            if (o is not ProfileViewModel account) return;
 
             await MarkAccount(account, AccountMark.BrightLike);
         }
@@ -89,22 +89,22 @@ namespace Sensed.ViewModels
 
         #region Private Methods
 
-        private async Task MarkAccount(Account account, AccountMark mark)
+        private async Task MarkAccount(ProfileViewModel account, AccountMark mark)
         {
             if (account == null) return;
 
             RemoveAccountFromCarousel(account);
-            await DataProvider.MarkAccount(account.Id, mark);
+            await DataProvider.MarkAccount(account.Account.Id, mark);
         }
 
-        private void RemoveAccountFromCarousel(Account account)
+        private void RemoveAccountFromCarousel(ProfileViewModel account)
         {
             Accounts.Remove(account);
         }
 
         #endregion
 
-        public AvaloniaList<Account> Accounts { get; set; } = new();
+        public AvaloniaList<ProfileViewModel> Accounts { get; set; } = new();
 
         [Reactive] public bool ShowLoading { get; set; }
     }

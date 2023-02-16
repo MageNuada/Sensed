@@ -14,31 +14,36 @@
   </Design.DataContext>
 
   <Grid>
-    <ItemsControl Items="{Binding Images}">
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-            <WrapPanel />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-        <DataTemplate DataType="local:ProfileImage">
-          <Border Margin="5" BorderBrush="Black" CornerRadius="2" BorderThickness="1">
-            <Grid>
-              <Image Source="{Binding Image}" Width="{Binding Width}" Height="{Binding Height}" />
-              <Button Content="+" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Right"
-                      IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNull}}"
-                      Command="{Binding $parent[ItemsControl].DataContext.AddImageCommand}"
-                      CommandParameter="{Binding}"
-                      x:CompileBindings="False"/>
-              <Button Content="X" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Red"
-                      IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNotNull}}"
-                      Command="{Binding $parent[ItemsControl].DataContext.RemoveImageCommand}"
-                      CommandParameter="{Binding}"
-                      x:CompileBindings="False"/>
-            </Grid>
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <ScrollViewer>
+      <StackPanel Orientation="Vertical">
+        <ItemsControl HorizontalAlignment="Center" Items="{Binding Images}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="local:ProfileImage">
+              <Border Margin="5" BorderBrush="Black" CornerRadius="2" BorderThickness="1">
+                <Grid>
+                  <Image Source="{Binding Image}" Width="{Binding Width}" Height="{Binding Height}" />
+                  <Button Content="+" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Right"
+                          IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNull}}"
+                          Command="{Binding $parent[ItemsControl].DataContext.AddImageCommand}"
+                          CommandParameter="{Binding}"
+                          x:CompileBindings="False"/>
+                  <Button Content="X" Margin="2" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Red"
+                          IsVisible="{Binding Image, Converter={x:Static ObjectConverters.IsNotNull}}"
+                          Command="{Binding $parent[ItemsControl].DataContext.RemoveImageCommand}"
+                          CommandParameter="{Binding}"
+                          x:CompileBindings="False"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBox HorizontalAlignment="Stretch" Margin="20" Watermark="Your description" UseFloatingWatermark="True"/>
+      </StackPanel>
+    </ScrollViewer>
   </Grid>
 </UserControl>
