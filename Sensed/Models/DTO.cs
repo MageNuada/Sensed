@@ -4,9 +4,9 @@ namespace Sensed.Models;
 
 public enum AccountMark
 {
-    Like,
-    Dislike,
     Banned,
+    Dislike,
+    Like,
     BrightLike,
 }
 
