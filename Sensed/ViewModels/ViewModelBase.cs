@@ -30,10 +30,21 @@ public class ViewModelBase : ReactiveObject
 
     public void Close() { OnClose(); }
 
+    /// <summary>
+    /// Вызывается при каждом открытии вью, к которой прикреплена данная вьюмодел
+    /// </summary>
+    /// <returns></returns>
     protected virtual Task OnActivation() { return Task.FromResult(0); }
 
+    /// <summary>
+    /// Вызывается при первой загрузке вью, к которой прикреплена данная вьюмодел
+    /// </summary>
+    /// <returns></returns>
     protected virtual Task OnInit() { return Task.FromResult(0); }
 
+    /// <summary>
+    /// Вызывается при закрытии (смене на другое) вью, к которой прикреплена данная вьюмодел
+    /// </summary>
     protected virtual void OnDeactivate() { }
 
     protected virtual void OnClose() { }
