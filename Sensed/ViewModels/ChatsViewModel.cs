@@ -6,12 +6,12 @@ namespace Sensed.ViewModels;
 
 public class ChatsViewModel : ConnectedViewModelBase
 {
-    public ChatsViewModel() : base(null)
+    public ChatsViewModel() : base(null, null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
     }
 
-    public ChatsViewModel(IDataProvider dataProvider) : base(dataProvider)
+    public ChatsViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
     {
     }
 }

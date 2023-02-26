@@ -34,14 +34,15 @@ public class ProfileImage : ReactiveObject
 
 public class FillProfileViewModel : ConnectedViewModelBase
 {
-    public FillProfileViewModel() : base(null)
+    public FillProfileViewModel() : base(null, null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
         Images.AddRange(Enumerable.Range(0,9).Select(x => new ProfileImage()));
     }
 
-    public FillProfileViewModel(Account owner, IDataProvider dataProvider, IStorageProvider? storageProvider) : base(dataProvider)
+    public FillProfileViewModel(Account owner, IDataProvider dataProvider, IStorageProvider? storageProvider, ViewController viewController)
+        : base(dataProvider, viewController)
     {
         Owner = owner ?? throw new ArgumentNullException(nameof(owner), "Profile cannot be null!");
         StorageProvider = storageProvider ?? throw new ArgumentNullException(nameof(storageProvider), "Storage provider cannot be null!");
@@ -73,6 +74,19 @@ public class FillProfileViewModel : ConnectedViewModelBase
         if (Design.IsDesignMode || Owner == null) return;
 
         Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
+    }
+
+    internal void SetSize(Size finalSize)
+    {
+        ViewSize = finalSize;
+        float w, h;
+        w = (float)(finalSize.Width / 3.0 - 20);
+        h = (float)(w * 3 / 4);
+        foreach (var image in Images)
+        {
+            image.Width = w;
+            image.Height = h;
+        }
     }
 
     private Task Refresh()
@@ -140,17 +154,11 @@ public class FillProfileViewModel : ConnectedViewModelBase
         Images.Add(new ProfileImage() { Width = w, Height = h });
     }
 
-    internal void SetSize(Size finalSize)
+    public void GetOnPreviousView()
     {
-        ViewSize = finalSize;
-        float w, h;
-        w = (float)(finalSize.Width / 3.0 - 20);
-        h = (float)(w * 3 / 4);
-        foreach (var image in Images)
-        {
-            image.Width = w;
-            image.Height = h;
-        }
+        if (Design.IsDesignMode) return;
+
+        ViewController.ReturnPrevious();
     }
 
     #endregion

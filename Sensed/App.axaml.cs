@@ -15,7 +15,10 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        MainViewModel? viewModel = new() { ActiveViewModel = new LoadingViewModel() };
+        var controller = new ViewController();
+        MainViewModel? viewModel = new(controller);
+        controller.SetMainView(viewModel);
+        controller.OpenView(new LoadingViewModel());
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

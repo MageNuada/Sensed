@@ -7,7 +7,7 @@ namespace Sensed.ViewModels;
 
 public class ProfileViewModel : ViewModelBase
 {
-    public ProfileViewModel()
+    public ProfileViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
@@ -15,7 +15,7 @@ public class ProfileViewModel : ViewModelBase
     }
 
 
-    public ProfileViewModel(Account account)
+    public ProfileViewModel(Account account, ViewController viewController) : base(viewController)
     {
         Account = account;
     }

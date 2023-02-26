@@ -11,9 +11,10 @@ public class ViewModelBase : ReactiveObject
     private bool _inited;
     private int _id;
 
-    public ViewModelBase()
+    public ViewModelBase(ViewController viewController)
     {
         _id = _counter++;
+        ViewController = viewController;
     }
 
     public Task Init()
@@ -53,11 +54,13 @@ public class ViewModelBase : ReactiveObject
     {
         return $"{base.ToString()} id: {_id}";
     }
+
+    internal ViewController ViewController { get; }
 }
 
 public class ConnectedViewModelBase : ViewModelBase
 {
-    public ConnectedViewModelBase(IDataProvider dataProvider)
+    public ConnectedViewModelBase(IDataProvider dataProvider, ViewController viewController) : base(viewController)
     {
         DataProvider = dataProvider;
     }

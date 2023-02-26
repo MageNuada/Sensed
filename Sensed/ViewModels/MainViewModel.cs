@@ -1,12 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +11,11 @@ namespace Sensed.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    public MainViewModel()
+    public MainViewModel() : base(null)
+    {
+    }
+
+    public MainViewModel(ViewController viewController) : base(viewController)
     {
     }
 
@@ -23,14 +24,6 @@ public class MainViewModel : ViewModelBase
     protected override Task OnInit()
     {
         MainDataProvider = new StubDataProvider();
-
-        this.WhenAnyValue(x => x.ActiveViewModel).Subscribe(x =>
-        {
-            if (x != null && !ExistedViewModels.Exists(y => y.GetType() == x.GetType()))
-            {
-                ExistedViewModels.Add(x);
-            }
-        });
 
         return Task.Run(async () =>
         {
@@ -48,7 +41,7 @@ public class MainViewModel : ViewModelBase
             {
                 var accs = await MainDataProvider.GetAccounts(new[] { CurrentId });
                 CurrentProfile = new Account(accs.FirstOrDefault(), MainDataProvider);
-                ActiveViewModel = new PeopleViewModel(MainDataProvider);
+                ViewController.OpenView(new PeopleViewModel(MainDataProvider, ViewController));
             }
 
             return resultTask.ContinueWith(x => base.OnInit());
@@ -56,43 +49,6 @@ public class MainViewModel : ViewModelBase
     }
 
     #endregion
-
-    public bool GetOnPreviousView()
-    {
-        if (Design.IsDesignMode) return false;
-
-        if (OpenedViewModels.Any())
-        {
-            var vm = OpenedViewModels[^1];
-            OpenedViewModels.RemoveAt(OpenedViewModels.Count - 1);
-            Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
-            return true;
-        }
-        else if(ActiveViewModel?.GetType() != typeof(PeopleViewModel))
-        {
-            var vm = ExistedViewModels.Find(x => x.GetType() == typeof(PeopleViewModel));
-            Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
-            return true;
-        }
-
-        return false;
-    }
-
-    public void OpenProfileEditCommand()
-    {
-        if (Design.IsDesignMode) return;
-
-        OpenedViewModels.Add(ActiveViewModel);
-        ActiveViewModel = new FillProfileViewModel(CurrentProfile, MainDataProvider, StorageProvider);
-    }
-
-    public void OpenSettingsCommand()
-    {
-        if (Design.IsDesignMode) return;
-
-        OpenedViewModels.Add(ActiveViewModel);
-        ActiveViewModel = new SettingsViewModel();
-    }
 
     public void SelectTabCommand(object o)
     {
@@ -102,26 +58,20 @@ public class MainViewModel : ViewModelBase
 
         ViewModelBase vm = index switch
         {
-            0 => new PeopleViewModel(MainDataProvider),
-            1 => new ChatsViewModel(MainDataProvider),
-            2 => new LikedAccountsViewModel(MainDataProvider),
-            3 => new AccountViewModel(MainDataProvider, CurrentProfile),
+            0 => new PeopleViewModel(MainDataProvider, ViewController),
+            1 => new ChatsViewModel(MainDataProvider, ViewController),
+            2 => new LikedAccountsViewModel(MainDataProvider, ViewController),
+            3 => new AccountViewModel(MainDataProvider, CurrentProfile, ViewController),
             _ => throw new ArgumentException("Wrong tab selected!"),
         };
-
-        vm = ExistedViewModels.FirstOrDefault(x => x.GetType() == vm.GetType()) ?? vm;
 
         //if (!OpenedViewModels.Any() || OpenedViewModels.Last() != ActiveViewModel)
         //{
         //    OpenedViewModels.Add(ActiveViewModel);
         //}
 
-        ActiveViewModel = vm;
+        ViewController.OpenView(vm);
     }
-
-    private List<ViewModelBase> ExistedViewModels { get; } = new();
-
-    private List<ViewModelBase?> OpenedViewModels { get; } = new();
 
     /// <summary>
     /// Активная в данный момент вьюмодель для приложения

@@ -1,12 +1,20 @@
-﻿using Sensed.ViewModels;
+﻿using Avalonia.Platform.Storage;
+using Sensed.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sensed;
 
-internal class ViewController
+public class ViewController
 {
+    internal ViewController() { }
+
     internal ViewController(MainViewModel mainViewModel)
+    {
+        MainViewModel = mainViewModel;
+    }
+
+    internal void SetMainView(MainViewModel mainViewModel)
     {
         MainViewModel = mainViewModel;
     }
@@ -49,5 +57,7 @@ internal class ViewController
 
     private List<ViewModelBase?> OpenedViewModels { get; } = new();
 
-    private MainViewModel MainViewModel { get; }
+    private MainViewModel MainViewModel { get; set; }
+
+    public IStorageProvider? StorageProvider => MainViewModel?.StorageProvider;
 }
