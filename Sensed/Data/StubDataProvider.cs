@@ -94,7 +94,7 @@ internal class StubDataProvider : IDataProvider
 
     public Task<IEnumerable<AccountDTO>> GetAccounts(IEnumerable<string> ids, IEnumerable<SearchFilter>? filters = null)
     {
-        return Task.Delay(1500).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
+        return Task.Delay(150).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
     }
 
     public Task<AccountStatus> GetAccountStatus()
@@ -121,7 +121,7 @@ internal class StubDataProvider : IDataProvider
 
     public Task<string?> Login(string phone)
     {
-        return Task.Delay(500).ContinueWith(x => { CheckNumber(phone); return CurrentId = _profiles[0].Id; });
+        return Task.Delay(50).ContinueWith<string?>(x => { CheckNumber(phone); return CurrentId = _profiles[0].Id; });
     }
 
     public Task<OperationResult> MarkAccount(string id, AccountMark mark, string? description = null)
@@ -136,7 +136,7 @@ internal class StubDataProvider : IDataProvider
 
     public Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters)
     {
-        return Task.Delay(1500).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
+        return Task.Delay(150).ContinueWith(x => _profiles as IEnumerable<AccountDTO>);
     }
 
     public Task<string> SetAccountStatus(AccountStatus status)

@@ -11,7 +11,7 @@ namespace Sensed.ViewModels;
 
 public class PeopleViewModel : ConnectedViewModelBase
 {
-    private AvaloniaList<ProfileViewModel> _accs = null;
+    private AvaloniaList<ProfileViewModel>? _accs = null;
     private int _selectedIndex;
 
     public PeopleViewModel() : base(null)

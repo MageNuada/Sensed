@@ -1,13 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
-using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,10 +39,6 @@ public class MainViewModel : ViewModelBase
             CurrentId = await idTask;
             VariationsList = (await paramsTask).ToArray();
 
-            //await Task.WhenAll(paramsTask, idTask);
-            //CurrentId = idTask.Result;
-            //VariationsList = paramsTask.Result.ToArray();
-
             var resultTask = Task.CompletedTask;
             if (string.IsNullOrEmpty(CurrentId))
             {
@@ -54,8 +48,7 @@ public class MainViewModel : ViewModelBase
             {
                 var accs = await MainDataProvider.GetAccounts(new[] { CurrentId });
                 CurrentProfile = new Account(accs.FirstOrDefault(), MainDataProvider);
-
-                Dispatcher.UIThread.Post(() => ActiveViewModel = new PeopleViewModel(MainDataProvider));
+                ActiveViewModel = new PeopleViewModel(MainDataProvider);
             }
 
             return resultTask.ContinueWith(x => base.OnInit());
@@ -90,7 +83,7 @@ public class MainViewModel : ViewModelBase
         if (Design.IsDesignMode) return;
 
         OpenedViewModels.Add(ActiveViewModel);
-        Dispatcher.UIThread.Post(() => ActiveViewModel = new FillProfileViewModel(CurrentProfile, MainDataProvider, StorageProvider));
+        ActiveViewModel = new FillProfileViewModel(CurrentProfile, MainDataProvider, StorageProvider);
     }
 
     public void OpenSettingsCommand()
@@ -98,7 +91,7 @@ public class MainViewModel : ViewModelBase
         if (Design.IsDesignMode) return;
 
         OpenedViewModels.Add(ActiveViewModel);
-        Dispatcher.UIThread.Post(() => ActiveViewModel = new SettingsViewModel());
+        ActiveViewModel = new SettingsViewModel();
     }
 
     public void SelectTabCommand(object o)
@@ -123,7 +116,7 @@ public class MainViewModel : ViewModelBase
         //    OpenedViewModels.Add(ActiveViewModel);
         //}
 
-        Dispatcher.UIThread.Post(() => ActiveViewModel = vm);
+        ActiveViewModel = vm;
     }
 
     private List<ViewModelBase> ExistedViewModels { get; } = new();
@@ -133,7 +126,7 @@ public class MainViewModel : ViewModelBase
     /// <summary>
     /// Активная в данный момент вьюмодель для приложения
     /// </summary>
-    [Reactive] public ViewModelBase? ActiveViewModel { get; set; }
+    [Reactive] internal ViewModelBase? ActiveViewModel { get; set; }
 
     internal IStorageProvider? StorageProvider { get; set; }
 
