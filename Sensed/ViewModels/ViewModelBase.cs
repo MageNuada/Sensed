@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
-public class ViewModelBase : ReactiveObject
+public interface IViewControlled
+{
+    public ViewController ViewController { get; }
+}
+
+public class ViewModelBase : ReactiveObject, IViewControlled
 {
     private static int _counter = 0;
     private bool _inited;
@@ -55,7 +60,7 @@ public class ViewModelBase : ReactiveObject
         return $"{base.ToString()} id: {_id}";
     }
 
-    internal ViewController ViewController { get; }
+    public ViewController ViewController { get; }
 }
 
 public class ConnectedViewModelBase : ViewModelBase

@@ -31,7 +31,7 @@ public class LikedAccountsViewModel : ConnectedViewModelBase
             //.Select(a => new ProfileViewModel(new Account(a.account, DataProvider)));
             //Profiles.AddRange(accs);
             var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == 1)
-            .Select(a => new Account(a.account, DataProvider));
+            .Select(a => new ProfileViewModel(new Account(a.account, DataProvider), DataProvider, ViewController, true));
             Accounts.AddRange(accs);
 
             return base.OnActivation();
@@ -52,7 +52,5 @@ public class LikedAccountsViewModel : ConnectedViewModelBase
 
     }
 
-    [Reactive] public AvaloniaList<ProfileViewModel> Profiles { get; set; } = new();
-
-    [Reactive] public AvaloniaList<Account> Accounts { get; set; } = new();
+    [Reactive] public AvaloniaList<ProfileViewModel> Accounts { get; set; } = new();
 }

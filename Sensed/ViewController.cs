@@ -1,9 +1,20 @@
-﻿using Avalonia.Platform.Storage;
+﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Sensed.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sensed;
+
+public interface IQueuedView : IViewControlled
+{
+    public void GetOnPreviousView()
+    {
+        if (Design.IsDesignMode) return;
+
+        ViewController.ReturnPrevious();
+    }
+}
 
 public class ViewController
 {

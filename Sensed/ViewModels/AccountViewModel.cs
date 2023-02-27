@@ -14,7 +14,7 @@ public class AccountViewModel : ConnectedViewModelBase
     public AccountViewModel(IDataProvider dataProvider, Models.Account currentProfile, ViewController viewController)
         : base(dataProvider, viewController)
     {
-        ViewModel = new ProfileViewModel(currentProfile, ViewController);
+        ViewModel = new ProfileViewModel(currentProfile, DataProvider, ViewController);
     }
 
     public void OpenProfileEditCommand()

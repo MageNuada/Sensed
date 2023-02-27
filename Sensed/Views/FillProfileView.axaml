@@ -43,10 +43,12 @@
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
-          <TextBox HorizontalAlignment="Stretch" Margin="20" Watermark="Your description" UseFloatingWatermark="True"/>
+          <TextBox Text="{Binding Description}" HorizontalAlignment="Stretch" Margin="20"
+                   AcceptsReturn="True"
+                   Watermark="Your description" UseFloatingWatermark="True"/>
         </StackPanel>
         <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Background="Green"
-                Command="{Binding GetOnPreviousView}" x:CompileBindings="False"/>
+                Command="{Binding GetOnPreviousViewCommand}" x:CompileBindings="False"/>
       </Grid>
     </ScrollViewer>
   </Grid>

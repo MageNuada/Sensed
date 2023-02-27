@@ -32,7 +32,7 @@ public class ProfileImage : ReactiveObject
     }
 }
 
-public class FillProfileViewModel : ConnectedViewModelBase
+public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
 {
     public FillProfileViewModel() : base(null, null)
     {
@@ -74,6 +74,7 @@ public class FillProfileViewModel : ConnectedViewModelBase
         if (Design.IsDesignMode || Owner == null) return;
 
         Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
+        Owner.Description = Description;
     }
 
     internal void SetSize(Size finalSize)
@@ -100,6 +101,8 @@ public class FillProfileViewModel : ConnectedViewModelBase
             }
             for (int i = Images.Count; i < 9; i++)
                 Images.Add(new ProfileImage());
+
+            Description = Owner.Description;
         });
     }
 
@@ -154,11 +157,9 @@ public class FillProfileViewModel : ConnectedViewModelBase
         Images.Add(new ProfileImage() { Width = w, Height = h });
     }
 
-    public void GetOnPreviousView()
+    public void GetOnPreviousViewCommand()
     {
-        if (Design.IsDesignMode) return;
-
-        ViewController.ReturnPrevious();
+        ((IQueuedView)this).GetOnPreviousView();
     }
 
     #endregion
@@ -170,6 +171,8 @@ public class FillProfileViewModel : ConnectedViewModelBase
     public Account Owner { get; }
 
     public AvaloniaList<ProfileImage> Images { get; } = new() { ResetBehavior = ResetBehavior.Reset };
+    
+    [Reactive] public string? Description { get; set; }
 
     private Size ViewSize { get; set; }
 

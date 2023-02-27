@@ -22,10 +22,10 @@
               </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-              <DataTemplate DataType="models:Account">
+              <DataTemplate DataType="local:ProfileViewModel">
                 <Border Margin="5" BorderBrush="Black" CornerRadius="2" BorderThickness="1">
                   <Grid>
-                    <Image Source="{Binding Photos[0].Value^}" Width="100" Height="100">
+                    <Image Source="{Binding Account.Photos[0].Value^}" Width="100" Height="100">
                       <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="PointerReleased">
                           <ia:CallMethodAction MethodName="SelectProfileCommand" 
