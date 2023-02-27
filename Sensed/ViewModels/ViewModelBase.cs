@@ -7,7 +7,7 @@ namespace Sensed.ViewModels;
 
 public interface IViewControlled
 {
-    public ViewController ViewController { get; }
+    ViewController ViewController { get; }
 }
 
 public class ViewModelBase : ReactiveObject, IViewControlled
@@ -22,7 +22,7 @@ public class ViewModelBase : ReactiveObject, IViewControlled
         ViewController = viewController;
     }
 
-    public Task Init()
+    internal Task Init()
     {
         if (Design.IsDesignMode) return Task.CompletedTask;
         if (_inited) return Task.CompletedTask;
@@ -30,11 +30,11 @@ public class ViewModelBase : ReactiveObject, IViewControlled
         return OnInit();
     }
 
-    public Task Activate() { return OnActivation(); }
+    internal Task Activate() { return OnActivation(); }
 
-    public void Deactivate() { OnDeactivate(); }
+    internal void Deactivate() { OnDeactivate(); }
 
-    public void Close() { OnClose(); }
+    internal void Close() { OnClose(); }
 
     /// <summary>
     /// Вызывается при каждом открытии вью, к которой прикреплена данная вьюмодел
@@ -53,6 +53,9 @@ public class ViewModelBase : ReactiveObject, IViewControlled
     /// </summary>
     protected virtual void OnDeactivate() { }
 
+    /// <summary>
+    /// Вызывается при закрытии приложения
+    /// </summary>
     protected virtual void OnClose() { }
 
     public override string ToString()

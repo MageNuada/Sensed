@@ -23,4 +23,15 @@ public class MainActivity : AvaloniaMainActivity
 
         return base.OnKeyUp(keyCode, e);
     }
+
+    protected override void OnDestroy()
+    {
+        //TODO: работает лишь при выходе через кнопку возврата
+        //if (Avalonia.Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
+        //{
+        //    if (lifetime.MainView is MainView mv)
+        //        mv.Close();
+        //}
+        base.OnDestroy();
+    }
 }

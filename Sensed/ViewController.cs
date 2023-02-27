@@ -70,9 +70,16 @@ public class ViewController
         return false;
     }
 
+    public void Close()
+    {
+        System.Console.WriteLine("Closing all views.");
+        foreach (var viewModel in OpenedViewModels)
+            viewModel.Close();
+    }
+
     private List<ViewModelBase> ExistedViewModels { get; } = new();
 
-    private List<ViewModelBase?> OpenedViewModels { get; } = new();
+    private List<ViewModelBase> OpenedViewModels { get; } = new();
 
     private MainViewModel MainViewModel { get; set; }
 
