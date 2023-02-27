@@ -30,9 +30,15 @@ public class ViewController
         MainViewModel = mainViewModel;
     }
 
-    public void OpenView(ViewModelBase? viewModel, bool addHistory = false)
+    /// <summary>
+    /// Открытие заданной вьюмодели
+    /// </summary>
+    /// <param name="viewModel">Вьюмодель для отображения</param>
+    /// <param name="addPreviousToHistory">Добавлять ли предыдущую вьюмодель в историю,
+    /// чтобы при нажатии кнопки возврата открывалась снова предыдущая вьюмодель</param>
+    public void OpenView(ViewModelBase? viewModel, bool addPreviousToHistory = false)
     {
-        if (addHistory)
+        if (addPreviousToHistory)
             OpenedViewModels.Add(MainViewModel.ActiveViewModel);
 
         if (viewModel != null && !ExistedViewModels.Exists(y => y.GetType() == viewModel.GetType()))
