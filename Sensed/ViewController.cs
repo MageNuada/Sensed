@@ -75,6 +75,7 @@ public class ViewController
         System.Console.WriteLine("Closing all views.");
         foreach (var viewModel in OpenedViewModels)
             viewModel.Close();
+        MainViewModel.Close();
     }
 
     private List<ViewModelBase> ExistedViewModels { get; } = new();
