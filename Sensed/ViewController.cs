@@ -42,7 +42,7 @@ public class ViewController
 
         viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == viewModel?.GetType()) ?? viewModel;
 
-        MainViewModel.ActiveViewModel = viewModel;
+        MainViewModel.SetViewModel(viewModel);
     }
 
     public bool ReturnPrevious()
@@ -51,13 +51,13 @@ public class ViewController
         {
             var viewModel = OpenedViewModels[^1];
             OpenedViewModels.RemoveAt(OpenedViewModels.Count - 1);
-            MainViewModel.ActiveViewModel = viewModel;
+            MainViewModel.SetViewModel(viewModel);
             return true;
         }
         else if (MainViewModel.ActiveViewModel?.GetType() != typeof(PeopleViewModel))
         {
             var viewModel = ExistedViewModels.Find(x => x.GetType() == typeof(PeopleViewModel));
-            MainViewModel.ActiveViewModel = viewModel;
+            MainViewModel.SetViewModel(viewModel);
             return true;
         }
 

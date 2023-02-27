@@ -41,11 +41,10 @@ public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
         Images.AddRange(Enumerable.Range(0,9).Select(x => new ProfileImage()));
     }
 
-    public FillProfileViewModel(Account owner, IDataProvider dataProvider, IStorageProvider? storageProvider, ViewController viewController)
+    public FillProfileViewModel(Account owner, IDataProvider dataProvider, ViewController viewController)
         : base(dataProvider, viewController)
     {
         Owner = owner ?? throw new ArgumentNullException(nameof(owner), "Profile cannot be null!");
-        StorageProvider = storageProvider ?? throw new ArgumentNullException(nameof(storageProvider), "Storage provider cannot be null!");
     }
 
     #region Overriden
@@ -110,9 +109,9 @@ public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
 
     public async Task AddImageCommand(object o)
     {
-        if (Design.IsDesignMode || Owner == null || StorageProvider == null || o is not ProfileImage image) return;
+        if (Design.IsDesignMode || Owner == null || ViewController.StorageProvider == null || o is not ProfileImage image) return;
 
-        var files = await StorageProvider.OpenFilePickerAsync(
+        var files = await ViewController.StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions()
             {
                 AllowMultiple = false,
@@ -165,8 +164,6 @@ public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
     #endregion
 
     #region Properties
-
-    private IStorageProvider? StorageProvider { get; set; }
 
     public Account Owner { get; }
 

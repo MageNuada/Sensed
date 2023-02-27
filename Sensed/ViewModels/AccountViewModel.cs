@@ -21,9 +21,7 @@ public class AccountViewModel : ConnectedViewModelBase
     {
         if (Design.IsDesignMode) return;
 
-        ViewController.OpenView(
-            new FillProfileViewModel(ViewModel.Account, DataProvider, ViewController.StorageProvider, ViewController),
-            true);
+        ViewController.OpenView(new FillProfileViewModel(ViewModel.Account, DataProvider, ViewController), true);
     }
 
     public void OpenSettingsCommand()

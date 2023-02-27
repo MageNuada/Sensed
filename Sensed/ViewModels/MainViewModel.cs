@@ -73,10 +73,15 @@ public class MainViewModel : ViewModelBase
         ViewController.OpenView(vm);
     }
 
+    internal void SetViewModel(ViewModelBase? viewModel)
+    {
+        ActiveViewModel = viewModel;
+    }
+
     /// <summary>
     /// Активная в данный момент вьюмодель для приложения
     /// </summary>
-    [Reactive] internal ViewModelBase? ActiveViewModel { get; set; }
+    [Reactive] internal ViewModelBase? ActiveViewModel { get; private set; }
 
     internal IStorageProvider? StorageProvider { get; set; }
 
