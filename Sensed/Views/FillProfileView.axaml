@@ -44,7 +44,7 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
           <TextBox Text="{Binding Description}" HorizontalAlignment="Stretch" Margin="20"
-                   AcceptsReturn="True"
+                   AcceptsReturn="True" MaxLength="300" TextWrapping="Wrap" MaxLines="20"
                    Watermark="Your description" UseFloatingWatermark="True"/>
         </StackPanel>
         <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Background="Green"

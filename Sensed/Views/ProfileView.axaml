@@ -34,11 +34,13 @@
     </ListBox>
 
     <Grid Grid.Row="1">
-      <StackPanel Margin="20" Orientation="Vertical">
-        <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="{Binding Account.Name}" Margin="0,0,0,10" />
-        <TextBlock HorizontalAlignment="Left" Text="{Binding Account.Summary}" Margin="0,0,0,40" TextWrapping="Wrap" />
-        <TextBlock HorizontalAlignment="Left" Text="{Binding Account.Description}" Margin="0,0,0,10" />
-      </StackPanel>
+      <ScrollViewer>
+        <StackPanel Margin="20" Orientation="Vertical">
+          <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="{Binding Account.Name}" Margin="0,0,0,10" />
+          <TextBlock HorizontalAlignment="Left" Text="{Binding Account.Summary}" Margin="0,0,0,40" TextWrapping="Wrap" />
+          <TextBlock HorizontalAlignment="Left" Text="{Binding Account.Description}" Margin="0,0,0,10" />
+        </StackPanel>
+      </ScrollViewer>
       <StackPanel IsVisible="{Binding SmallView}" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20">
         <Button Background="DarkSlateBlue" Content="-" Margin="0,0,10,0" Width="20"
                 Command="{Binding DislikeCommand}"
