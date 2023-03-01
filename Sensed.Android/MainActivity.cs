@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Avalonia.Android;
@@ -22,6 +23,26 @@ public class MainActivity : AvaloniaMainActivity
         }
 
         return base.OnKeyUp(keyCode, e);
+    }
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+    }
+
+    protected override void OnRestart()
+    {
+        base.OnRestart();
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
     }
 
     protected override void OnDestroy()

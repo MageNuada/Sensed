@@ -38,11 +38,21 @@ public class SplashActivity : AvaloniaSplashActivity<App>
         base.OnDestroy();
     }
 
+    protected override void OnRestart()
+    {
+        base.OnRestart();
+    }
+
     protected override void OnResume()
     {
         base.OnResume();
 
         StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
     }
 
     public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent? e)
