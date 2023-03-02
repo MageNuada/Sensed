@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Avalonia.Android;
@@ -22,5 +23,36 @@ public class MainActivity : AvaloniaMainActivity
         }
 
         return base.OnKeyUp(keyCode, e);
+    }
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+    }
+
+    protected override void OnRestart()
+    {
+        base.OnRestart();
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
+    }
+
+    protected override void OnDestroy()
+    {
+        //TODO: работает лишь при выходе через кнопку возврата
+        //if (Avalonia.Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
+        //{
+        //    if (lifetime.MainView is MainView mv)
+        //        mv.Close();
+        //}
+        base.OnDestroy();
     }
 }

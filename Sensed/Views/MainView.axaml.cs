@@ -21,12 +21,17 @@ public partial class MainView : ViewBase<MainViewModel>
     {
         if (ViewModel == null) return false;
 
-        if(ViewModel.GetOnPreviousView()) return true;
+        if (ViewModel.ViewController.ReturnPrevious()) return true;
 
         //if not handled
         return false;
 
         //if handled
         return true;
+    }
+
+    public void Close()
+    {
+        ViewModel?.ViewController.Close();
     }
 }

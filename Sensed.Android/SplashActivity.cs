@@ -7,6 +7,8 @@ using Avalonia.Android;
 using Avalonia.ReactiveUI;
 using Android.Runtime;
 using Android.Views;
+using Avalonia.Controls.ApplicationLifetimes;
+using Sensed.Views;
 
 namespace Sensed.Android;
 
@@ -24,11 +26,33 @@ public class SplashActivity : AvaloniaSplashActivity<App>
         base.OnCreate(savedInstanceState);
     }
 
+    protected override void OnDestroy()
+    {
+        //работает при закрытии всего приложения и при выходе через кнопку возврата
+        if (Avalonia.Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
+        {
+            if (lifetime.MainView is MainView mv)
+                mv.Close();
+        }
+        System.Console.WriteLine("Destroying app.");
+        base.OnDestroy();
+    }
+
+    protected override void OnRestart()
+    {
+        base.OnRestart();
+    }
+
     protected override void OnResume()
     {
         base.OnResume();
 
         StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
     }
 
     public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent? e)

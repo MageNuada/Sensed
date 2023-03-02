@@ -11,8 +11,8 @@
   <Grid>
     <views:ProfileView DataContext="{Binding ViewModel}" />
     <Grid Background="Red" VerticalAlignment="Top" HorizontalAlignment="Right">
-      <Button Foreground="White" Content="Изменение профиля" Command="{Binding $parent[UserControl; 1].DataContext.OpenProfileEditCommand}" x:CompileBindings="False" />
-      <Button Foreground="WhiteSmoke" Content="Настройки приложения и поиска" Margin="0,70,20,0" Command="{Binding $parent[UserControl; 1].DataContext.OpenSettingsCommand}" x:CompileBindings="False" />
+      <Button Foreground="White" Content="Изменение профиля" Command="{Binding OpenProfileEditCommand}" x:CompileBindings="False" />
+      <Button Foreground="WhiteSmoke" Content="Настройки приложения и поиска" Margin="0,70,20,0" Command="{Binding OpenSettingsCommand}" x:CompileBindings="False" />
     </Grid>
   </Grid>
 </UserControl>

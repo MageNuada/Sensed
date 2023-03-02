@@ -32,19 +32,19 @@ public class ProfileImage : ReactiveObject
     }
 }
 
-public class FillProfileViewModel : ConnectedViewModelBase
+public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
 {
-    public FillProfileViewModel() : base(null)
+    public FillProfileViewModel() : base(null, null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
         Images.AddRange(Enumerable.Range(0,9).Select(x => new ProfileImage()));
     }
 
-    public FillProfileViewModel(Account owner, IDataProvider dataProvider, IStorageProvider? storageProvider) : base(dataProvider)
+    public FillProfileViewModel(Account owner, IDataProvider dataProvider, ViewController viewController)
+        : base(dataProvider, viewController)
     {
         Owner = owner ?? throw new ArgumentNullException(nameof(owner), "Profile cannot be null!");
-        StorageProvider = storageProvider ?? throw new ArgumentNullException(nameof(storageProvider), "Storage provider cannot be null!");
     }
 
     #region Overriden
@@ -73,6 +73,20 @@ public class FillProfileViewModel : ConnectedViewModelBase
         if (Design.IsDesignMode || Owner == null) return;
 
         Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
+        Owner.Description = Description;
+    }
+
+    internal void SetSize(Size finalSize)
+    {
+        ViewSize = finalSize;
+        float w, h;
+        w = (float)(finalSize.Width / 3.0 - 20);
+        h = (float)(w * 3 / 4);
+        foreach (var image in Images)
+        {
+            image.Width = w;
+            image.Height = h;
+        }
     }
 
     private Task Refresh()
@@ -86,6 +100,8 @@ public class FillProfileViewModel : ConnectedViewModelBase
             }
             for (int i = Images.Count; i < 9; i++)
                 Images.Add(new ProfileImage());
+
+            Description = Owner.Description;
         });
     }
 
@@ -93,9 +109,9 @@ public class FillProfileViewModel : ConnectedViewModelBase
 
     public async Task AddImageCommand(object o)
     {
-        if (Design.IsDesignMode || Owner == null || StorageProvider == null || o is not ProfileImage image) return;
+        if (Design.IsDesignMode || Owner == null || ViewController.StorageProvider == null || o is not ProfileImage image) return;
 
-        var files = await StorageProvider.OpenFilePickerAsync(
+        var files = await ViewController.StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions()
             {
                 AllowMultiple = false,
@@ -140,28 +156,20 @@ public class FillProfileViewModel : ConnectedViewModelBase
         Images.Add(new ProfileImage() { Width = w, Height = h });
     }
 
-    internal void SetSize(Size finalSize)
+    public void GetOnPreviousViewCommand()
     {
-        ViewSize = finalSize;
-        float w, h;
-        w = (float)(finalSize.Width / 3.0 - 20);
-        h = (float)(w * 3 / 4);
-        foreach (var image in Images)
-        {
-            image.Width = w;
-            image.Height = h;
-        }
+        ((IQueuedView)this).GetOnPreviousView();
     }
 
     #endregion
 
     #region Properties
 
-    private IStorageProvider? StorageProvider { get; set; }
-
     public Account Owner { get; }
 
     public AvaloniaList<ProfileImage> Images { get; } = new() { ResetBehavior = ResetBehavior.Reset };
+    
+    [Reactive] public string? Description { get; set; }
 
     private Size ViewSize { get; set; }
 

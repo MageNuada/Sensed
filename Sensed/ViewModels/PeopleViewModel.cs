@@ -11,18 +11,18 @@ namespace Sensed.ViewModels;
 
 public class PeopleViewModel : ConnectedViewModelBase
 {
-    private AvaloniaList<ProfileViewModel> _accs = null;
+    private AvaloniaList<ProfileViewModel>? _accs = null;
     private int _selectedIndex;
 
-    public PeopleViewModel() : base(null)
+    public PeopleViewModel() : base(null, null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
         Accounts.Add(new ProfileViewModel(new Account(new AccountDTO(), null
             /*не нужно, потому что список фото пустой*/
-            /*new StubDataProvider()*/)));
+            /*new StubDataProvider()*/), DataProvider, ViewController));
     }
 
-    public PeopleViewModel(IDataProvider dataProvider) : base(dataProvider)
+    public PeopleViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
     {
         if (Design.IsDesignMode) return;
     }
@@ -35,7 +35,7 @@ public class PeopleViewModel : ConnectedViewModelBase
             var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
             Accounts.AddRange(accsDto.Select(x =>
             {
-                return new ProfileViewModel(new Account(x, DataProvider));
+                return new ProfileViewModel(new Account(x, DataProvider), DataProvider, ViewController);
                 //это позволяет нам прогрузить первое фото для профиля сразу
                 //var acc = new Account(x, DataProvider);
                 //var ph = acc.Photos[0].Value.Result;

@@ -2,7 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:Sensed.ViewModels"
+             xmlns:models="using:Sensed.Models"
+             xmlns:views="using:Sensed.Views"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Sensed.Views.LikedAccountsView">
-  Likes stub!
+             x:Class="Sensed.Views.LikedAccountsView"
+             x:DataType="local:LikedAccountsViewModel" x:CompileBindings="True">
+
+  <Grid>
+    <ScrollViewer>
+      <Grid>
+        <StackPanel Orientation="Vertical">
+          <ItemsControl HorizontalAlignment="Center" Items="{Binding Accounts}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="local:ProfileViewModel">
+                <Border Margin="5" BorderBrush="Black" CornerRadius="2" BorderThickness="1">
+                  <Grid>
+                    <Image Source="{Binding Account.Photos[0].Value^}" Width="100" Height="100">
+                      <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="PointerReleased">
+                          <ia:CallMethodAction MethodName="SelectProfileCommand" 
+                                               TargetObject="{Binding }"/>
+                        </ia:EventTriggerBehavior>
+                      </i:Interaction.Behaviors>
+                    </Image>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
+  </Grid>
 </UserControl>

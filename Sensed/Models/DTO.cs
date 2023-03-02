@@ -26,9 +26,9 @@ public enum Gender
 }
 public enum AccountMark
 {
-    Like,
-    Dislike,
     Banned,
+    Dislike,
+    Like,
     BrightLike,
 }
 
