@@ -32,11 +32,7 @@ public class MainViewModel : ViewModelBase
             CurrentId = await idTask;
             VariationsList = (await paramsTask).ToArray();
 
-            //await Task.WhenAll(paramsTask, idTask);
-            //CurrentId = idTask.Result;
-            //VariationsList = paramsTask.Result.ToArray();
             CurrentId = null;
-            var resultTask = Task.CompletedTask;
             if (string.IsNullOrEmpty(CurrentId))
             {
                 ActiveViewModel = new RegistrationViewModel(MainDataProvider, ViewController);
@@ -48,7 +44,7 @@ public class MainViewModel : ViewModelBase
                 ViewController.OpenView(new PeopleViewModel(MainDataProvider, ViewController));
             }
 
-            return resultTask.ContinueWith(x => base.OnInit());
+            return Task.CompletedTask.ContinueWith(x => base.OnInit());
         });
     }
 
