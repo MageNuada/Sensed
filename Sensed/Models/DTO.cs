@@ -2,6 +2,28 @@
 
 namespace Sensed.Models;
 
+public enum Gender
+{
+    Man,
+    Woman,
+    Other,
+    Agender,
+    Androgynous,
+    Bigender,
+    GenderFluid,
+    GenderNonComforming,
+    Genderqueer,
+    GenderQuestioning,
+    Intersex,
+    NonBinary,
+    Pangender,
+    TransHuman,
+    TransMan,
+    TransWoman,
+    Transfemenine,
+    Transmasculine,
+    TwoSpirit
+}
 public enum AccountMark
 {
     Like,

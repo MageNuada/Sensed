@@ -44,11 +44,11 @@ public class MainViewModel : ViewModelBase
             //await Task.WhenAll(paramsTask, idTask);
             //CurrentId = idTask.Result;
             //VariationsList = paramsTask.Result.ToArray();
-
+            CurrentId = null;
             var resultTask = Task.CompletedTask;
             if (string.IsNullOrEmpty(CurrentId))
             {
-                //Света, алло, тут вызов передача твоей вьюмодели контрола регистрации
+                ActiveViewModel = new RegistrationViewModel(MainDataProvider);
             }
             else
             {

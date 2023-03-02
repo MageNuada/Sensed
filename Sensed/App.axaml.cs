@@ -15,7 +15,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        MainViewModel? viewModel = new() { ActiveViewModel = new LoadingViewModel() };
+        MainViewModel? viewModel = new() { ActiveViewModel = new RegistrationViewModel() };
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

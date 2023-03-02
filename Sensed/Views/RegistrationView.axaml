@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:local="using:Sensed.ViewModels"
+             xmlns:model="using:Sensed.Models"
+             xmlns:views="using:Sensed.Views"
+             x:Class="Sensed.Views.RegistrationView"
+             x:DataType="local:RegistrationViewModel" x:CompileBindings="True">
+  <Design.DataContext>
+    <local:RegistrationViewModel />
+  </Design.DataContext>
+  
+      <Grid ColumnDefinitions="Auto,*,Auto"
+            VerticalAlignment="Stretch"
+            Margin="0 16 0 0"
+            Grid.Row="0">
+
+      <Button Name="left" Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black"/>
+      </Button>
+      
+      <Carousel Name="carousel" Grid.Column="1" VerticalAlignment="Stretch">
+        <Carousel.PageTransition>
+          <PageSlide Duration="0.25" Orientation="Horizontal" />
+        </Carousel.PageTransition>
+        <UserControl VerticalAlignment="Stretch" Background="AliceBlue">
+          <Grid>
+            <TextBlock VerticalAlignment="Center"> Вам должно быть 18 лет или больше для использования Sensed  </TextBlock>
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Мне 18+ </Button>
+          </Grid>
+        </UserControl>
+        <UserControl VerticalAlignment="Stretch" Background="Gainsboro">
+          <StackPanel>
+            <TextBlock VerticalAlignment="Center" > Sensed - это пидрильный клуб любителей пощекотать очко. Заходи один или с партнером, чтобы найти любовников и друзей </TextBlock>
+            <Button Name="email" VerticalAlignment="Bottom" Command="{Binding $parent[Carousel].Next}"> Вход по email </Button>
+            <Button> Вход по Google </Button>
+          </StackPanel>
+        </UserControl>
+        <UserControl VerticalAlignment="Stretch" Background="Azure">
+          <StackPanel>
+           <TextBlock VerticalAlignment="Bottom"> На какую почту нам прислать ссылку для подтверждения регистрации? </TextBlock>
+            <TextBox VerticalAlignment="Center">Email</TextBox>
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Отправить </Button>
+          </StackPanel>
+        </UserControl>
+        <UserControl>
+          <StackPanel>
+            <TextBlock VerticalAlignment="Bottom"> Подтверждение отправлено! </TextBlock>
+            <TextBlock VerticalAlignment="Bottom"> Пожалуйста, проверьте ваши входящие письма и нажмите на ссылку, которую мы вам прислали </TextBlock>
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Открыть приложение почты </Button>
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Center"> Я не получил письмо.(это должна быть гиперссылка) </Button>
+          </StackPanel>
+        </UserControl>
+        <UserControl>
+          <Grid RowDefinitions="Auto,*,Auto">
+            <Button Grid.Row="0" HorizontalAlignment="Left" Command="{Binding $parent[Carousel].Previous}"> ! </Button>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center"> 1/10 </TextBlock>
+            
+            <Carousel Name="carouselRegistration" Grid.Row="1" >
+              <Carousel.PageTransition>
+                <PageSlide Duration="0.25" Orientation="Horizontal" />
+              </Carousel.PageTransition>
+              <UserControl>
+                <StackPanel>
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Введите свой номер телефона. Нам важно знать, что вы реальный человек. </TextBlock>
+                <TextBox Name="countryCode"></TextBox>
+                <TextBox Name="phoneNumber">Phone number</TextBox>
+                </StackPanel>
+              </UserControl>
+              <UserControl>
+                <StackPanel>
+                  <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Введите код, отправленный на *номер телефона*. </TextBlock>
+                  <TextBox></TextBox>
+                </StackPanel>
+              </UserControl>
+              <UserControl>
+                <StackPanel>
+                  <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Когда ваш день рождения? </TextBlock>
+                  <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Ваша дата рождения не будет видна </TextBlock>
+                  <TextBox Name="day">Day</TextBox>
+                  <TextBox Name="month">Month</TextBox>
+                  <TextBox Name="Year">Year</TextBox>
+                </StackPanel>
+              </UserControl>
+              <UserControl>
+                <StackPanel>
+                  <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Зовите меня... </TextBlock>
+                  <TextBox Name="nickname">Псевдоним</TextBox>
+                </StackPanel>
+              </UserControl>
+              <UserControl>
+                <StackPanel>
+                  <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Выберите свой гендер </TextBlock>
+                  <ListBox Name="genders" Items="{Binding Genders}"></ListBox>
+                </StackPanel>
+              </UserControl>
+            </Carousel>
+
+            <Button Grid.Row="2" HorizontalAlignment="Center" Command="{Binding #carouselRegistration.Next}"> Далее </Button>
+          </Grid>
+        </UserControl>
+
+
+
+      </Carousel>
+      <Button Name="right" Grid.Column="2" VerticalAlignment="Center" Padding="10,20" Margin="4">
+        <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black"/>
+      </Button>
+
+  </Grid>
+</UserControl>
+

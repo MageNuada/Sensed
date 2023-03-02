@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:local="using:Sensed.ViewModels"
              xmlns:model="using:Sensed.Models"
              xmlns:views="using:Sensed.Views"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Sensed.Views.PeopleView"
              x:DataType="local:PeopleViewModel" x:CompileBindings="True">
 
