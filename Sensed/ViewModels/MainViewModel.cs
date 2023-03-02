@@ -39,7 +39,7 @@ public class MainViewModel : ViewModelBase
             var resultTask = Task.CompletedTask;
             if (string.IsNullOrEmpty(CurrentId))
             {
-                ActiveViewModel = new RegistrationViewModel(MainDataProvider);
+                ActiveViewModel = new RegistrationViewModel(MainDataProvider, ViewController);
             }
             else
             {
