@@ -14,14 +14,14 @@ public class AccountViewModel : ConnectedViewModelBase
     public AccountViewModel(IDataProvider dataProvider, Models.Account currentProfile, ViewController viewController)
         : base(dataProvider, viewController)
     {
-        ViewModel = new ProfileViewModel(currentProfile, DataProvider, ViewController);
+        Profile = new ProfileViewModel(currentProfile, DataProvider, ViewController);
     }
 
     public void OpenProfileEditCommand()
     {
         if (Design.IsDesignMode) return;
 
-        ViewController.OpenView(new FillProfileViewModel(ViewModel.Account, DataProvider, ViewController), true);
+        ViewController.OpenView(new FillProfileViewModel(Profile.Account, DataProvider, ViewController), true);
     }
 
     public void OpenSettingsCommand()
@@ -31,5 +31,5 @@ public class AccountViewModel : ConnectedViewModelBase
         ViewController.OpenView(new SettingsViewModel(), true);
     }
 
-    [Reactive] public ProfileViewModel ViewModel { get; set; }
+    [Reactive] public ProfileViewModel Profile { get; set; }
 }

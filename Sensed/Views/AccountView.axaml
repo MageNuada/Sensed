@@ -9,7 +9,7 @@
              x:DataType="local:AccountViewModel" x:CompileBindings="True">
 
   <Grid>
-    <views:ProfileView DataContext="{Binding ViewModel}" />
+    <views:ProfileView DataContext="{Binding Profile}" />
     <Grid Background="Red" VerticalAlignment="Top" HorizontalAlignment="Right">
       <Button Foreground="White" Content="Изменение профиля" Command="{Binding OpenProfileEditCommand}" x:CompileBindings="False" />
       <Button Foreground="WhiteSmoke" Content="Настройки приложения и поиска" Margin="0,70,20,0" Command="{Binding OpenSettingsCommand}" x:CompileBindings="False" />
