@@ -119,6 +119,16 @@ internal class StubDataProvider : IDataProvider
         return Task.Delay(50).ContinueWith(x => _images[photoId]);
     }
 
+    public Task<string> UploadPhoto(Bitmap photo)
+    {
+        return Task.Delay(1500).ContinueWith(x => "12345");
+    }
+
+    public Task<OperationResult> DeletePhoto(string photoId)
+    {
+        return Task.Delay(500).ContinueWith(x => OperationResult.Success);
+    }
+
     public Task<string?> Login(string phone)
     {
         return Task.Delay(50).ContinueWith<string?>(x => { CheckNumber(phone); return CurrentId = _profiles[0].Id; });
@@ -129,9 +139,9 @@ internal class StubDataProvider : IDataProvider
         return Task.Delay(50).ContinueWith(x => OperationResult.Success);
     }
 
-    public Task<OperationResult> ModifyAccount(string description, IEnumerable<object> photos, IEnumerable<object> tags)
+    public Task<OperationResult> ModifyAccount(AccountDTO account)
     {
-        throw new NotImplementedException();
+        return Task.Delay(50).ContinueWith(x => OperationResult.Success);
     }
 
     public Task<IEnumerable<AccountDTO>> SearchAccounts(IEnumerable<SearchFilter> filters)

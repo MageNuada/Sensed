@@ -31,7 +31,7 @@ public interface IDataProvider
     /// <returns>id в случае успеха, null в случае неудачи</returns>
     Task<string?> VerifyAccount(string phone, string smsCode);
 
-    Task<OperationResult> ModifyAccount(string description, IEnumerable<object> photos, IEnumerable<object> tags);
+    Task<OperationResult> ModifyAccount(AccountDTO account);
 
     Task<OperationResult> DeleteAccount();
 
@@ -82,9 +82,23 @@ public interface IDataProvider
     Task<object> StartChat(string id);
 
     /// <summary>
-    /// Получение картинки по её айди
+    /// Получение изображения по его айди
+    /// </summary>
+    /// <param name="photoId"></param>
+    /// <returns>Изображение</returns>
+    Task<Bitmap> GetPhoto(string photoId);
+
+    /// <summary>
+    /// Загрузка изображения на сервер
+    /// </summary>
+    /// <param name="photo">Изображение</param>
+    /// <returns>ID изображения</returns>
+    public Task<string> UploadPhoto(Bitmap photo);
+
+    /// <summary>
+    /// Удаление изображения с сервера по его ID
     /// </summary>
     /// <param name="photoId"></param>
     /// <returns></returns>
-    Task<Bitmap> GetPhoto(string photoId);
+    public Task<OperationResult> DeletePhoto(string photoId);
 }

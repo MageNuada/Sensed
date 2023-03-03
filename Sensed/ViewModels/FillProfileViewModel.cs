@@ -14,12 +14,15 @@ namespace Sensed.ViewModels;
 
 public class ProfileImage : ReactiveObject
 {
-    public ProfileImage(Bitmap? image = null)
+    public ProfileImage(Bitmap? image = null, string? id = null)
     {
         Image = image;
+        Id = id;
     }
 
     [Reactive] public Bitmap? Image { get; set; }
+
+    public string? Id { get; set; }
 
     [Reactive] public float Width { get; set; } = 102.4f;
 
@@ -65,16 +68,27 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
         base.OnDeactivate();
     }
 
+    protected override void OnClose()
+    {
+        Save();
+
+        base.OnClose();
+    }
+
     #endregion
 
     public void Save()
     {
         if (Design.IsDesignMode || Owner == null) return;
 
-        Owner.Photos = Images.Where(x => x.Image != null).Select(x => new Lazy<Task<Bitmap>>(Task.FromResult(x.Image))).ToList();
+        Owner.Photos = Images.Where(x => x.Image != null && x.Id != null)
+            .Select(x => new DownloadedPhoto(x.Id, new Lazy<Task<Bitmap>>(Task.FromResult<Bitmap>(x.Image))))
+            .ToList();
         Owner.Description = Description;
-    }
 
+        ViewController.DataProvider.ModifyAccount(Owner);
+    }
+    
     internal void SetSize(Size finalSize)
     {
         ViewSize = finalSize;
@@ -94,8 +108,8 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
         {
             foreach (var image in Owner.Photos)
             {
-                var data = await image.Value;
-                Images.Add(new ProfileImage(data));
+                var data = await image.Image.Value;
+                Images.Add(new ProfileImage(data, image.Id));
             }
             for (int i = Images.Count; i < 9; i++)
                 Images.Add(new ProfileImage());
@@ -119,7 +133,7 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
                 {
                     new FilePickerFileType("image")
                     {
-                        Patterns = new[] { "*.png", "*.jpg", "*.jpeg" }
+                        Patterns = new[] { "*.bmp", "*.png", "*.jpg", "*.jpeg" }
                     }
                 }
             });
@@ -132,6 +146,7 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
 
         if (bitmap.PixelSize.AspectRatio > 2 || bitmap.PixelSize.AspectRatio < 0.5) return;
 
+        var id = await ViewController.DataProvider.UploadPhoto(bitmap);
         int currentIndex = Images.IndexOf(image);
         var stub = Images.FirstOrDefault(x => x.Image is null);
         if(stub != null)
@@ -142,11 +157,14 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
         }
 
         image.Image = bitmap;
+        image.Id = id;
     }
 
-    public void RemoveImageCommand(object o)
+    public async void RemoveImageCommand(object o)
     {
-        if (Design.IsDesignMode || Owner == null || o is not ProfileImage image) return;
+        if (Design.IsDesignMode || Owner == null || o is not ProfileImage image || image.Id == null) return;
+
+        await ViewController.DataProvider.DeletePhoto(image.Id);
 
         Images.Remove(image);
         float w, h;

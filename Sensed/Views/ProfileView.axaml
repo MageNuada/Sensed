@@ -28,7 +28,7 @@
       </ListBox.ItemsPanel>
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <Image Source="{Binding Value^}" />
+          <Image Source="{Binding Image.Value^}"/>
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
