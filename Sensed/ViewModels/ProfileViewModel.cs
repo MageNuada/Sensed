@@ -1,22 +1,21 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI.Fody.Helpers;
-using Sensed.Data;
 using Sensed.Models;
 using System;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
-public class ProfileViewModel : ConnectedViewModelBase, IQueuedView
+public class ProfileViewModel : ControlledViewModelBase, IQueuedView
 {
-    public ProfileViewModel() : base(null, null)
+    public ProfileViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
         Account = new Account(new AccountDTO(), null);
     }
 
-    public ProfileViewModel(Account account, IDataProvider dataProvider, ViewController viewController, bool smallView = false) : base(dataProvider, viewController)
+    public ProfileViewModel(Account account, ViewController viewController, bool smallView = false) : base(viewController)
     {
         Account = account;
         SmallView = smallView;
@@ -54,7 +53,7 @@ public class ProfileViewModel : ConnectedViewModelBase, IQueuedView
     {
         if (account == null) return;
 
-        await DataProvider.MarkAccount(account.Account.Id, mark);
+        await ViewController.DataProvider.MarkAccount(account.Account.Id, mark);
 
         GetOnPreviousViewCommand();
     }

@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
-public class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase, IViewControlled
 {
-    public MainViewModel() : base(null)
+    public MainViewModel() : base()
     {
     }
 
-    public MainViewModel(ViewController viewController) : base(viewController)
+    public MainViewModel(ViewController viewController) : base()
     {
+        ViewController = viewController;
     }
 
     #region Overriden
@@ -32,16 +33,16 @@ public class MainViewModel : ViewModelBase
             CurrentId = await idTask;
             VariationsList = (await paramsTask).ToArray();
 
-            CurrentId = null;
+            //CurrentId = null;
             if (string.IsNullOrEmpty(CurrentId))
             {
-                ActiveViewModel = new RegistrationViewModel(MainDataProvider, ViewController);
+                ViewController.OpenView<RegistrationViewModel>();
             }
             else
             {
                 var accs = await MainDataProvider.GetAccounts(new[] { CurrentId });
                 CurrentProfile = new Account(accs.FirstOrDefault(), MainDataProvider);
-                ViewController.OpenView(new PeopleViewModel(MainDataProvider, ViewController));
+                ViewController.OpenView<PeopleViewModel>();
             }
 
             return Task.CompletedTask.ContinueWith(x => base.OnInit());
@@ -58,17 +59,12 @@ public class MainViewModel : ViewModelBase
 
         ViewModelBase vm = index switch
         {
-            0 => new PeopleViewModel(MainDataProvider, ViewController),
-            1 => new ChatsViewModel(MainDataProvider, ViewController),
-            2 => new LikedAccountsViewModel(MainDataProvider, ViewController),
-            3 => new AccountViewModel(MainDataProvider, CurrentProfile, ViewController),
+            0 => ViewController.GetOrCreateView<PeopleViewModel>(),
+            1 => ViewController.GetOrCreateView<ChatsViewModel>(),
+            2 => ViewController.GetOrCreateView<LikedAccountsViewModel>(),
+            3 => ViewController.GetOrCreateView<AccountViewModel>(CurrentProfile, ViewController),
             _ => throw new ArgumentException("Wrong tab selected!"),
         };
-
-        //if (!OpenedViewModels.Any() || OpenedViewModels.Last() != ActiveViewModel)
-        //{
-        //    OpenedViewModels.Add(ActiveViewModel);
-        //}
 
         ViewController.OpenView(vm);
     }
@@ -92,4 +88,6 @@ public class MainViewModel : ViewModelBase
     public (string parameter, InfoType type)[] VariationsList { get; private set; } = Array.Empty<(string, InfoType)>();
 
     public Account CurrentProfile { get; private set; }
+
+    public ViewController ViewController { get; }
 }

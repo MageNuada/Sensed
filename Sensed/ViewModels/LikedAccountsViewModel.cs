@@ -1,7 +1,6 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using ReactiveUI.Fody.Helpers;
-using Sensed.Data;
 using Sensed.Models;
 using System;
 using System.Linq;
@@ -9,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 
-public class LikedAccountsViewModel : ConnectedViewModelBase
+public class LikedAccountsViewModel : ControlledViewModelBase
 {
-    public LikedAccountsViewModel() : base(null, null)
+    public LikedAccountsViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
     }
 
-    public LikedAccountsViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
+    public LikedAccountsViewModel(ViewController viewController) : base(viewController)
     {
     }
 
@@ -26,12 +25,9 @@ public class LikedAccountsViewModel : ConnectedViewModelBase
     {
         return Task.Run(async () =>
         {
-            var allAccs = await DataProvider.GetMatchedAccounts();
-            //var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == 1)
-            //.Select(a => new ProfileViewModel(new Account(a.account, DataProvider)));
-            //Profiles.AddRange(accs);
+            var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
             var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == 1)
-            .Select(a => new ProfileViewModel(new Account(a.account, DataProvider), DataProvider, ViewController, true));
+            .Select(a => ViewController.CreateView<ProfileViewModel>(new Account(a.account, ViewController.DataProvider), ViewController, true));
             Accounts.AddRange(accs);
 
             return base.OnActivation();

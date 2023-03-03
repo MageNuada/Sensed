@@ -2,9 +2,5 @@
 
 public class LoadingViewModel : ViewModelBase
 {
-    public LoadingViewModel() : base(null) { }
-
-    public LoadingViewModel(ViewController viewController) : base(viewController)
-    {
-    }
+    public LoadingViewModel() : base() { }
 }

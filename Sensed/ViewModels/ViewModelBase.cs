@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI;
-using Sensed.Data;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
@@ -10,16 +9,15 @@ public interface IViewControlled
     ViewController ViewController { get; }
 }
 
-public class ViewModelBase : ReactiveObject, IViewControlled
+public class ViewModelBase : ReactiveObject
 {
     private static int s_counter = 0;
     private bool _inited;
     private int _id;
 
-    public ViewModelBase(ViewController viewController)
+    public ViewModelBase()
     {
         _id = s_counter++;
-        ViewController = viewController;
     }
 
     internal Task Init()
@@ -62,16 +60,14 @@ public class ViewModelBase : ReactiveObject, IViewControlled
     {
         return $"{base.ToString()} id: {_id}";
     }
-
-    public ViewController ViewController { get; }
 }
 
-public class ConnectedViewModelBase : ViewModelBase
+public class ControlledViewModelBase : ViewModelBase, IViewControlled
 {
-    public ConnectedViewModelBase(IDataProvider dataProvider, ViewController viewController) : base(viewController)
+    public ControlledViewModelBase(ViewController viewController) : base()
     {
-        DataProvider = dataProvider;
+        ViewController = viewController;
     }
 
-    public IDataProvider DataProvider { get; }
+    public ViewController ViewController { get; }
 }

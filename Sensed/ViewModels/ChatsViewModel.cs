@@ -1,17 +1,16 @@
 ﻿using Avalonia.Controls;
-using Sensed.Data;
 using System;
 
 namespace Sensed.ViewModels;
 
-public class ChatsViewModel : ConnectedViewModelBase
+public class ChatsViewModel : ControlledViewModelBase
 {
-    public ChatsViewModel() : base(null, null)
+    public ChatsViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
     }
 
-    public ChatsViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
+    public ChatsViewModel(ViewController viewController) : base(viewController)
     {
     }
 }

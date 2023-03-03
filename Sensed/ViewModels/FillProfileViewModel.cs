@@ -5,7 +5,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Sensed.Data;
 using Sensed.Models;
 using System;
 using System.Linq;
@@ -32,17 +31,17 @@ public class ProfileImage : ReactiveObject
     }
 }
 
-public class FillProfileViewModel : ConnectedViewModelBase, IQueuedView
+public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
 {
-    public FillProfileViewModel() : base(null, null)
+    public FillProfileViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
         Images.AddRange(Enumerable.Range(0,9).Select(x => new ProfileImage()));
     }
 
-    public FillProfileViewModel(Account owner, IDataProvider dataProvider, ViewController viewController)
-        : base(dataProvider, viewController)
+    public FillProfileViewModel(ViewController viewController, Account owner)
+        : base(viewController)
     {
         Owner = owner ?? throw new ArgumentNullException(nameof(owner), "Profile cannot be null!");
     }

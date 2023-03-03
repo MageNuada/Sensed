@@ -1,34 +1,37 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI.Fody.Helpers;
-using Sensed.Data;
+using Sensed.Models;
 
 namespace Sensed.ViewModels;
 
-public class AccountViewModel : ConnectedViewModelBase
+public class AccountViewModel : ControlledViewModelBase
 {
-    public AccountViewModel() : base(null, null)
+    private readonly Account _currentProfile;
+
+    public AccountViewModel() : base(null)
     {
 
     }
 
-    public AccountViewModel(IDataProvider dataProvider, Models.Account currentProfile, ViewController viewController)
-        : base(dataProvider, viewController)
+    public AccountViewModel(Account currentProfile, ViewController viewController)
+        : base(viewController)
     {
-        Profile = new ProfileViewModel(currentProfile, DataProvider, ViewController);
+        Profile = ViewController.GetOrCreateView<ProfileViewModel>(currentProfile, viewController, false);
+        _currentProfile = currentProfile;
     }
 
     public void OpenProfileEditCommand()
     {
         if (Design.IsDesignMode) return;
 
-        ViewController.OpenView(new FillProfileViewModel(Profile.Account, DataProvider, ViewController), true);
+        ViewController.OpenView<FillProfileViewModel>(addPreviousToHistory: true, ViewController, _currentProfile);
     }
 
     public void OpenSettingsCommand()
     {
         if (Design.IsDesignMode) return;
 
-        ViewController.OpenView(new SettingsViewModel(), true);
+        ViewController.OpenView<SettingsViewModel>(true);
     }
 
     [Reactive] public ProfileViewModel Profile { get; set; }

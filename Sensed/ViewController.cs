@@ -56,7 +56,8 @@ public class ViewController
             ExistedViewModels.Add(viewModel);
         }
 
-        viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == viewModel.GetType()) ?? viewModel;
+        //не нужно, потому что мы хотим открыть конкретную вьюмодель
+        //viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == viewModel.GetType()) ?? viewModel;
 
         MainViewModel.SetViewModel(viewModel);
     }

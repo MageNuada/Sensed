@@ -5,24 +5,21 @@ using Avalonia.Controls;
 using System.Threading.Tasks;
 using Sensed.Models;
 using System.Linq;
-using Sensed.Data;
 
 namespace Sensed.ViewModels;
 
-public class PeopleViewModel : ConnectedViewModelBase
+public class PeopleViewModel : ControlledViewModelBase
 {
     private AvaloniaList<ProfileViewModel>? _accs = null;
     private int _selectedIndex;
 
-    public PeopleViewModel() : base(null, null)
+    public PeopleViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
-        Accounts.Add(new ProfileViewModel(new Account(new AccountDTO(), null
-            /*не нужно, потому что список фото пустой*/
-            /*new StubDataProvider()*/), DataProvider, ViewController));
+        Accounts.Add(new ProfileViewModel());
     }
 
-    public PeopleViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
+    public PeopleViewModel(ViewController viewController) : base(viewController)
     {
         if (Design.IsDesignMode) return;
     }
@@ -32,10 +29,10 @@ public class PeopleViewModel : ConnectedViewModelBase
         return Task.Run(async () =>
         {
             ShowLoading = true;
-            var accsDto = await DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
+            var accsDto = await ViewController.DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
             Accounts.AddRange(accsDto.Select(x =>
             {
-                return new ProfileViewModel(new Account(x, DataProvider), DataProvider, ViewController);
+                return ViewController.CreateView<ProfileViewModel>(new Account(x, ViewController.DataProvider), ViewController, false);
                 //это позволяет нам прогрузить первое фото для профиля сразу
                 //var acc = new Account(x, DataProvider);
                 //var ph = acc.Photos[0].Value.Result;
@@ -110,7 +107,7 @@ public class PeopleViewModel : ConnectedViewModelBase
         if (account == null) return;
 
         RemoveAccountFromCarousel(account);
-        await DataProvider.MarkAccount(account.Account.Id, mark);
+        await ViewController.DataProvider.MarkAccount(account.Account.Id, mark);
     }
 
     private void RemoveAccountFromCarousel(ProfileViewModel account)
