@@ -12,13 +12,13 @@ public interface IViewControlled
 
 public class ViewModelBase : ReactiveObject, IViewControlled
 {
-    private static int _counter = 0;
+    private static int s_counter = 0;
     private bool _inited;
     private int _id;
 
     public ViewModelBase(ViewController viewController)
     {
-        _id = _counter++;
+        _id = s_counter++;
         ViewController = viewController;
     }
 

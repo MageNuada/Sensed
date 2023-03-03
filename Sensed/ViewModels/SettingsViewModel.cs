@@ -1,10 +1,12 @@
-﻿namespace Sensed.ViewModels;
+﻿using Sensed.Data;
 
-public class SettingsViewModel : ViewModelBase
+namespace Sensed.ViewModels;
+
+public class SettingsViewModel : ConnectedViewModelBase
 {
-    public SettingsViewModel() : base(null) { }
+    public SettingsViewModel() : base(null, null) { }
 
-    public SettingsViewModel(ViewController viewController) : base(viewController)
+    public SettingsViewModel(IDataProvider dataProvider, ViewController viewController) : base(dataProvider, viewController)
     {
     }
 }
