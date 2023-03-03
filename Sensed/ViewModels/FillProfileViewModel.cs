@@ -141,7 +141,10 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
         if (files == null || files.Count == 0) return;
 
         var file = files[0];
-        var stream = await file.OpenReadAsync();
+        using var stream = await file.OpenReadAsync();
+
+        if (stream.Length > 20_000_000) return;
+
         var bitmap = Bitmap.DecodeToHeight(stream, 768, BitmapInterpolationMode.HighQuality);
 
         if (bitmap.PixelSize.AspectRatio > 2 || bitmap.PixelSize.AspectRatio < 0.5) return;

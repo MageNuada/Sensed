@@ -19,7 +19,7 @@ public interface IDataProvider
     /// Регистрация нового аккаунта, в случае успеха надо вызвать <see cref="VerifyAccount(string, string)"/>
     /// для отправки полученного на указанный номер кода в смс
     /// </summary>
-    /// <param name="phone">Номер телефона без пробелов и скобочек с кодом страны в начале</param>
+    /// <param name="phone">Номер телефона (Y) без пробелов и скобочек с кодом страны (X) в начале вида +XXYYYYYYY</param>
     /// <returns>Если телефон уже зарегистрирован - выдаст неудачу</returns>
     Task<OperationResult> CreateAccount(string phone);
 
@@ -31,6 +31,11 @@ public interface IDataProvider
     /// <returns>id в случае успеха, null в случае неудачи</returns>
     Task<string?> VerifyAccount(string phone, string smsCode);
 
+    /// <summary>
+    /// Изменение информации аккаунта текущего пользователя
+    /// </summary>
+    /// <param name="account">Аккаунт</param>
+    /// <returns></returns>
     Task<OperationResult> ModifyAccount(AccountDTO account);
 
     Task<OperationResult> DeleteAccount();
@@ -98,7 +103,7 @@ public interface IDataProvider
     /// <summary>
     /// Удаление изображения с сервера по его ID
     /// </summary>
-    /// <param name="photoId"></param>
+    /// <param name="photoId">ID удаляемого изображения</param>
     /// <returns></returns>
     public Task<OperationResult> DeletePhoto(string photoId);
 }

@@ -24,12 +24,10 @@ public class MainViewModel : ViewModelBase, IViewControlled
 
     protected override Task OnInit()
     {
-        MainDataProvider = new StubDataProvider();
-
         return Task.Run(async () =>
         {
-            var idTask = MainDataProvider.Login("+79991234567");
-            var paramsTask = MainDataProvider.GetSGParams();
+            var idTask = ViewController.DataProvider.Login("+79991234567");
+            var paramsTask = ViewController.DataProvider.GetSGParams();
             CurrentId = await idTask;
             VariationsList = (await paramsTask).ToArray();
 
@@ -40,8 +38,8 @@ public class MainViewModel : ViewModelBase, IViewControlled
             }
             else
             {
-                var accs = await MainDataProvider.GetAccounts(new[] { CurrentId });
-                CurrentProfile = new Account(accs.FirstOrDefault(), MainDataProvider);
+                var accs = await ViewController.DataProvider.GetAccounts(new[] { CurrentId });
+                CurrentProfile = new Account(accs.FirstOrDefault(), ViewController.DataProvider);
                 ViewController.OpenView<PeopleViewModel>();
             }
 
@@ -80,8 +78,6 @@ public class MainViewModel : ViewModelBase, IViewControlled
     [Reactive] internal ViewModelBase? ActiveViewModel { get; private set; }
 
     internal IStorageProvider? StorageProvider { get; set; }
-
-    private IDataProvider? MainDataProvider { get; set; }
 
     public string? CurrentId { get; private set; }
 
