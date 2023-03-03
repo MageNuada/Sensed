@@ -1,11 +1,5 @@
-using Avalonia.Animation;
 using Avalonia.Controls;
-using ReactiveUI.Fody.Helpers;
-using Sensed.Models;
 using Sensed.ViewModels;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Sensed.Views;
 

@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Sensed.Data;
 using Sensed.ViewModels;
 using Sensed.Views;
 
@@ -15,7 +16,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var controller = new ViewController();
+        var controller = new ViewController(new StubDataProvider());
         MainViewModel? viewModel = new(controller);
         controller.SetMainView(viewModel);
         controller.OpenView(new LoadingViewModel());

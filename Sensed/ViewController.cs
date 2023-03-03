@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using Sensed.Data;
 using Sensed.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,9 +22,15 @@ public class ViewController
 {
     internal ViewController() { }
 
-    internal ViewController(MainViewModel mainViewModel)
+    internal ViewController(IDataProvider dataProvider)
+    {
+        DataProvider = dataProvider;
+    }
+
+    internal ViewController(MainViewModel mainViewModel, IDataProvider dataProvider)
     {
         MainViewModel = mainViewModel;
+        DataProvider = dataProvider;
     }
 
     internal void SetMainView(MainViewModel mainViewModel)
@@ -38,17 +46,76 @@ public class ViewController
     /// чтобы при нажатии кнопки возврата открывалась снова предыдущая вьюмодель</param>
     public void OpenView(ViewModelBase? viewModel, bool addPreviousToHistory = false)
     {
-        if (addPreviousToHistory)
+        if (viewModel == null) return;
+
+        if (addPreviousToHistory && MainViewModel.ActiveViewModel != null)
             OpenedViewModels.Add(MainViewModel.ActiveViewModel);
 
-        if (viewModel != null && !ExistedViewModels.Exists(y => y.GetType() == viewModel.GetType()))
+        if (!ExistedViewModels.Exists(y => y.GetType() == viewModel.GetType()))
         {
             ExistedViewModels.Add(viewModel);
         }
 
-        viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == viewModel?.GetType()) ?? viewModel;
+        viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == viewModel.GetType()) ?? viewModel;
 
         MainViewModel.SetViewModel(viewModel);
+    }
+
+    /// <summary>
+    /// Открытие заданной вьюмодели
+    /// </summary>
+    /// <typeparam name="T"><see cref="ControlledViewModelBase"></typeparam>
+    /// <param name="addPreviousToHistory"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public T OpenView<T>(bool addPreviousToHistory, params object[] args) where T : ControlledViewModelBase
+    {
+        if (addPreviousToHistory && MainViewModel.ActiveViewModel != null)
+            OpenedViewModels.Add(MainViewModel.ActiveViewModel);
+
+        var viewModel = GetOrCreateView<T>(args);
+
+        MainViewModel.SetViewModel(viewModel);
+
+        return viewModel;
+    }
+
+    /// <summary>
+    /// Открытие заданной вьюмодели
+    /// </summary>
+    /// <typeparam name="T"><see cref="ControlledViewModelBase"></typeparam>
+    /// <param name="addPreviousToHistory"></param>
+    /// <returns></returns>
+    public T OpenView<T>(bool addPreviousToHistory = false) where T : ControlledViewModelBase
+    {
+        if (addPreviousToHistory && MainViewModel.ActiveViewModel != null)
+            OpenedViewModels.Add(MainViewModel.ActiveViewModel);
+
+        var viewModel = GetOrCreateView<T>();
+
+        MainViewModel.SetViewModel(viewModel);
+
+        return viewModel;
+    }
+
+    public T CreateView<T>(params object[] args) where T : ControlledViewModelBase
+    {
+        if (args == null || args.Length == 0) args = new[] { this };
+        var viewModel = (T)Activator.CreateInstance(typeof(T), args);
+
+        return viewModel;
+    }
+
+    public T GetOrCreateView<T>(params object[] args) where T : ControlledViewModelBase
+    {
+        ViewModelBase? viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == typeof(T));
+        if (viewModel == null)
+        {
+            viewModel = CreateView<T>(args);
+            ExistedViewModels.Add(viewModel);
+        }
+
+        return (T)viewModel;
     }
 
     public bool ReturnPrevious()
@@ -62,9 +129,12 @@ public class ViewController
         }
         else if (MainViewModel.ActiveViewModel?.GetType() != typeof(PeopleViewModel))
         {
-            var viewModel = ExistedViewModels.Find(x => x.GetType() == typeof(PeopleViewModel));
-            MainViewModel.SetViewModel(viewModel);
-            return true;
+            var viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == typeof(PeopleViewModel));
+            if (viewModel == null)
+            {
+                MainViewModel.SetViewModel(viewModel);
+                return true;
+            }
         }
 
         return false;
@@ -72,10 +142,10 @@ public class ViewController
 
     public void Close()
     {
-        System.Console.WriteLine("Closing all views.");
-        foreach (var viewModel in OpenedViewModels)
+        Console.WriteLine("Closing all views.");
+        foreach (var viewModel in ExistedViewModels)
             viewModel.Close();
-        MainViewModel.Close();
+        MainViewModel?.Close();
     }
 
     private List<ViewModelBase> ExistedViewModels { get; } = new();
@@ -85,4 +155,6 @@ public class ViewController
     private MainViewModel MainViewModel { get; set; }
 
     public IStorageProvider? StorageProvider => MainViewModel?.StorageProvider;
+
+    public IDataProvider DataProvider { get; }
 }
