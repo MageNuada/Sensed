@@ -24,12 +24,14 @@ public enum Gender
     Transmasculine,
     TwoSpirit
 }
+
+[Flags]
 public enum AccountMark
 {
-    Banned,
-    Dislike,
-    Like,
-    BrightLike,
+    Banned = 1,
+    Dislike = 2,
+    Like = 4,
+    BrightLike = 8,
 }
 
 public enum OperationResult
