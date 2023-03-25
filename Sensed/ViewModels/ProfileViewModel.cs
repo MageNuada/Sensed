@@ -28,6 +28,13 @@ public class ProfileViewModel : ControlledViewModelBase, IQueuedView
         ViewController.OpenView(this, true);
     }
 
+    public void SelectChatCommand()
+    {
+        if (Design.IsDesignMode) return;
+
+        //ViewController.OpenView(this, true);
+    }
+
     public async Task LikeCommand(object o)
     {
         if (Design.IsDesignMode) return;
@@ -48,14 +55,15 @@ public class ProfileViewModel : ControlledViewModelBase, IQueuedView
     {
         ((IQueuedView)this).GetOnPreviousView();
     }
-    
+
     private async Task MarkAccount(ProfileViewModel account, AccountMark mark)
     {
         if (account == null) return;
 
-        await ViewController.DataProvider.MarkAccount(account.Account.Id, mark);
-
-        GetOnPreviousViewCommand();
+        if (await ViewController.DataProvider.MarkAccount(account.Account.Id, mark) == OperationResult.Success)
+        {
+            GetOnPreviousViewCommand();
+        }
     }
 
     [Reactive] public Account Account { get; set; }

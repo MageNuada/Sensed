@@ -106,8 +106,10 @@ public class PeopleViewModel : ControlledViewModelBase
     {
         if (account == null) return;
 
-        RemoveAccountFromCarousel(account);
-        await ViewController.DataProvider.MarkAccount(account.Account.Id, mark);
+        if (await ViewController.DataProvider.MarkAccount(account.Account.Id, mark) == OperationResult.Success)
+        {
+            RemoveAccountFromCarousel(account);
+        }
     }
 
     private void RemoveAccountFromCarousel(ProfileViewModel account)

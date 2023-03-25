@@ -20,19 +20,21 @@
                   </Carousel.ItemTemplate>
                 </Carousel>-->
 
-    <ListBox Grid.Row="0" Items="{Binding Account.Photos}">
-      <ListBox.ItemsPanel>
-        <ItemsPanelTemplate>
-          <StackPanel Orientation="Vertical" />
-        </ItemsPanelTemplate>
-      </ListBox.ItemsPanel>
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <Image Source="{Binding Image.Value^}"/>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
-
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <ItemsControl Grid.Row="0" Items="{Binding Account.Photos}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Image Source="{Binding Image.Value^}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+    
     <Grid Grid.Row="1">
       <ScrollViewer>
         <StackPanel Margin="20" Orientation="Vertical">

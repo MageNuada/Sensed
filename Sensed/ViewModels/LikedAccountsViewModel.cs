@@ -42,11 +42,5 @@ public class LikedAccountsViewModel : ControlledViewModelBase
 
     #endregion
 
-    public void SelectProfileCommand(object s, object e)
-    {
-        if (Design.IsDesignMode) return;
-
-    }
-
     [Reactive] public AvaloniaList<ProfileViewModel> Accounts { get; set; } = new();
 }
