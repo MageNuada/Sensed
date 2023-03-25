@@ -110,6 +110,8 @@ internal class StubDataProvider : IDataProvider
             (_profiles[0], AccountMark.Like, 1),
             (_profiles[1], AccountMark.Like, 1),
             (_profiles[2], AccountMark.Like, 1),
+            (_profiles[1], AccountMark.Like, 2),
+            (_profiles[2], AccountMark.Like, 2),
         }
         as IEnumerable<(AccountDTO account, AccountMark mark, int whos)>);
     }

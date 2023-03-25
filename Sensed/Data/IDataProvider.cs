@@ -61,7 +61,7 @@ public interface IDataProvider
     /// Получить список совпавших аккаунтов. Вызывается каждые Х секунд + должна вызываться после лайка для проверки?
     /// </summary>
     /// <returns>список аккаунтов, mark - тип взаимодействия поставленный, whos - кто поставил
-    /// (0 - текущий пользователь, 1 - другие пользователи)</returns>
+    /// (0 - текущий пользователь, 1 - другие пользователи, 2 - оба лайкнули друг друга)</returns>
     Task<IEnumerable<(AccountDTO account, AccountMark mark, int whos)>> GetMatchedAccounts();
 
     /// <summary>
