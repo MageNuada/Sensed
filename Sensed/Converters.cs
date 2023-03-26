@@ -10,7 +10,7 @@ public class BoolAligmentConverter : IValueConverter
     {
         if (value is not bool b)
             return new Avalonia.Data.BindingNotification(new NotSupportedException(), Avalonia.Data.BindingErrorType.Error);
-        return b ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+        return b ? HorizontalAlignment.Right : HorizontalAlignment.Left;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

@@ -20,6 +20,9 @@ public class ChatMessage
         Message = message;
         Type = type;
         Owned = owned;
+        //TODO: обернуть картинки в отдельную вьюмодель, чтобы можно было по клику на картинку открывать её и закрывать,
+        //отдельная вьюмодель требуется для интеракшнс в хамле - там нельзя передать аргумент, поэтому надо будет
+        //работать в классе самой вьюмодели картинки
     }
 
     public object Message { get; }
@@ -82,6 +85,14 @@ public class ChatViewModel : ControlledViewModelBase
         ViewController.ReturnPrevious();
     }
 
+    public void SendMessageCommand()
+    {
+        if (Design.IsDesignMode) return;
+
+        Messages.Add(new ChatMessage(NewMessageText));
+        NewMessageText = null;
+    }
+
     public Account Account { get; }
 
     [Reactive] public string LastMessage { get; set; }
@@ -89,4 +100,6 @@ public class ChatViewModel : ControlledViewModelBase
     [Reactive] bool HasUnread { get; set; }
 
     public AvaloniaList<ChatMessage> Messages { get; } = new();
+
+    [Reactive] public string? NewMessageText { get; set; }
 }

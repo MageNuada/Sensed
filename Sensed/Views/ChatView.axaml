@@ -19,28 +19,38 @@
   </Design.DataContext>
   
   <Grid>
-    <ItemsControl Margin="20,60,20,20" Items="{Binding Messages}">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <Grid>
-            <Grid.DataTemplates>
-              <DataTemplate DataType="core:String">
-                <Grid>
-                  <TextBlock Foreground="Black" Text="{Binding}" Padding="3" TextWrapping="Wrap"/>
-                </Grid>
-              </DataTemplate>
-              <DataTemplate DataType="images:Bitmap">
-                <Image Margin="0,0,3,0" Width="100" Height="100" Source="{Binding}"/>
-              </DataTemplate>
-            </Grid.DataTemplates>
-            <Border Margin="1" BorderThickness="1" CornerRadius="4" BorderBrush="Gray"
-                    HorizontalAlignment="{Binding Owned, Converter={StaticResource BoolAligmentConverter}}">
-              <ContentControl Margin="1" Content="{Binding Message}" />
-            </Border>
-          </Grid>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <Grid RowDefinitions="*,auto">
+      <ScrollViewer Grid.Row="0" Margin="20,60,20,20" VerticalScrollBarVisibility="Auto">
+        <ItemsControl Items="{Binding Messages}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.DataTemplates>
+                  <DataTemplate DataType="core:String">
+                    <Grid>
+                      <TextBlock Foreground="Black" Text="{Binding}" Padding="3" TextWrapping="Wrap"/>
+                    </Grid>
+                  </DataTemplate>
+                  <DataTemplate DataType="images:Bitmap">
+                    <Image Margin="0,0,3,0" Width="100" Height="100" Source="{Binding}"/>
+                  </DataTemplate>
+                </Grid.DataTemplates>
+                <Border Margin="1" BorderThickness="1" CornerRadius="4" BorderBrush="Gray"
+                        HorizontalAlignment="{Binding Owned, Converter={StaticResource BoolAligmentConverter}}">
+                  <ContentControl Margin="1" Content="{Binding Message}" />
+                </Border>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+      <Grid Grid.Row="1" ColumnDefinitions="*,auto">
+        <TextBox Grid.Column="0" Watermark="Enter message..." UseFloatingWatermark="False" Margin="3"
+                 Text="{Binding NewMessageText}" AcceptsReturn="False"/>
+        <Button Grid.Column="1" Content="Send" Width="60" HorizontalContentAlignment="Center" Margin="0,3,3,3"
+                Command="{Binding SendMessageCommand}"/>
+      </Grid>
+    </Grid>
     <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"
             Command="{Binding ReturnCommand}"/>
   </Grid>
