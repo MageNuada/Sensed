@@ -23,7 +23,7 @@ public class LikedAccountsViewModel : ControlledViewModelBase
         return Task.Run(async () =>
         {
             var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
-            var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == 1)
+            var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == LikeSource.AnotherUsers)
             .Select(a => ViewController.CreateView<ProfileViewModel>(new Account(a.account, ViewController.DataProvider), ViewController, true));
             Accounts.AddRange(accs);
 

@@ -62,7 +62,7 @@ public interface IDataProvider
     /// </summary>
     /// <returns>список аккаунтов, mark - тип взаимодействия поставленный, whos - кто поставил
     /// (0 - текущий пользователь, 1 - другие пользователи, 2 - оба лайкнули друг друга)</returns>
-    Task<IEnumerable<(AccountDTO account, AccountMark mark, int whos)>> GetMatchedAccounts();
+    Task<IEnumerable<(AccountDTO account, AccountMark mark, LikeSource whos)>> GetMatchedAccounts();
 
     /// <summary>
     /// Получить статус аккаунта в плане оплаченности

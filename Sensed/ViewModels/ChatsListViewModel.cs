@@ -9,9 +9,9 @@ public class ChatsListViewModel : ControlledViewModelBase
 {
     public ChatsListViewModel() : base()
     {
-        MatchedAccounts.Add(new ProfileViewModel());
-        MatchedAccounts.Add(new ProfileViewModel());
-        MatchedAccounts.Add(new ProfileViewModel());
+        MatchedAccounts.Add(new ChatViewModel());
+        MatchedAccounts.Add(new ChatViewModel());
+        MatchedAccounts.Add(new ChatViewModel());
     }
 
     public ChatsListViewModel(ViewController viewController) : base(viewController)
@@ -23,13 +23,13 @@ public class ChatsListViewModel : ControlledViewModelBase
         return Task.Run(async () =>
         {
             var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
-            var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == 2)
-            .Select(a => ViewController.CreateView<ProfileViewModel>(new Account(a.account, ViewController.DataProvider), ViewController, true));
+            var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == LikeSource.BothSidesLike)
+            .Select(a => ViewController.CreateView<ChatViewModel>(new Account(a.account, ViewController.DataProvider), ViewController));
             MatchedAccounts.AddRange(accs);
 
             return base.OnActivation();
         });
     }
 
-    public AvaloniaList<ProfileViewModel> MatchedAccounts { get; } = new();
+    public AvaloniaList<ChatViewModel> MatchedAccounts { get; } = new();
 }

@@ -34,6 +34,13 @@ public enum AccountMark
     BrightLike = 8,
 }
 
+public enum LikeSource
+{
+    CurrentUser = 0,
+    AnotherUsers = 1,
+    BothSidesLike = 2,
+}
+
 public enum OperationResult
 {
     Success,

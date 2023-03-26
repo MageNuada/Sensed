@@ -102,18 +102,18 @@ internal class StubDataProvider : IDataProvider
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<(AccountDTO account, AccountMark mark, int whos)>> GetMatchedAccounts()
+    public Task<IEnumerable<(AccountDTO account, AccountMark mark, LikeSource whos)>> GetMatchedAccounts()
     {
         return Task.Delay(50).ContinueWith(x => 
         new[]
         {
-            (_profiles[0], AccountMark.Like, 1),
-            (_profiles[1], AccountMark.Like, 1),
-            (_profiles[2], AccountMark.Like, 1),
-            (_profiles[1], AccountMark.Like, 2),
-            (_profiles[2], AccountMark.Like, 2),
+            (_profiles[0], AccountMark.Like, LikeSource.AnotherUsers),
+            (_profiles[1], AccountMark.Like, LikeSource.AnotherUsers),
+            (_profiles[2], AccountMark.Like, LikeSource.AnotherUsers),
+            (_profiles[1], AccountMark.Like, LikeSource.BothSidesLike),
+            (_profiles[2], AccountMark.Like, LikeSource.BothSidesLike),
         }
-        as IEnumerable<(AccountDTO account, AccountMark mark, int whos)>);
+        as IEnumerable<(AccountDTO account, AccountMark mark, LikeSource whos)>);
     }
 
     public Task<Bitmap> GetPhoto(string photoId)
