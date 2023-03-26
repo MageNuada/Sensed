@@ -87,7 +87,7 @@ public class ChatViewModel : ControlledViewModelBase
 
     public void SendMessageCommand()
     {
-        if (Design.IsDesignMode) return;
+        if (Design.IsDesignMode || string.IsNullOrWhiteSpace(NewMessageText)) return;
 
         Messages.Add(new ChatMessage(NewMessageText));
         NewMessageText = null;
