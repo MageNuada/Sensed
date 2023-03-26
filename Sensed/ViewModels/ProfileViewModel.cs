@@ -1,7 +1,10 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI.Fody.Helpers;
+using Sensed.Data;
 using Sensed.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
@@ -12,7 +15,9 @@ public class ProfileViewModel : ControlledViewModelBase, IQueuedView
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
 
-        Account = new Account(new AccountDTO(), null);
+        var testProvider = new StubDataProvider();
+        var accs = testProvider.SearchAccounts(new List<SearchFilter>()).Result;
+        Account = new Account(accs?.FirstOrDefault(), testProvider);
     }
 
     public ProfileViewModel(Account account, ViewController viewController, bool smallView = false) : base(viewController)

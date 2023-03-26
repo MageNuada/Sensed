@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using ReactiveUI.Fody.Helpers;
-using Sensed.Data;
 using Sensed.Models;
 using System;
 using System.Linq;

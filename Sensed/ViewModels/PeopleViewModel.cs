@@ -16,6 +16,7 @@ public class PeopleViewModel : ControlledViewModelBase
     public PeopleViewModel() : base(null)
     {
         if (!Design.IsDesignMode) throw new Exception("For design view only!");
+
         Accounts.Add(new ProfileViewModel());
     }
 
