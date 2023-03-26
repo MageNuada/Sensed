@@ -21,7 +21,7 @@
   <Grid>
     <Grid RowDefinitions="*,auto">
       <ScrollViewer Grid.Row="0" Margin="20,60,20,20" VerticalScrollBarVisibility="Auto">
-        <ItemsControl Items="{Binding Messages}">
+        <ItemsControl Items="{Binding Messages}" Margin="0,0,6,0">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <Grid>
@@ -48,7 +48,7 @@
         <TextBox Grid.Column="0" Watermark="Enter message..." UseFloatingWatermark="False" Margin="3"
                  Text="{Binding NewMessageText}" AcceptsReturn="False"/>
         <Button Grid.Column="1" Content="Send" Width="60" HorizontalContentAlignment="Center" Margin="0,3,3,3"
-                Command="{Binding SendMessageCommand}"/>
+                Command="{Binding SendMessageCommand}" IsDefault="True"/>
       </Grid>
     </Grid>
     <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"
