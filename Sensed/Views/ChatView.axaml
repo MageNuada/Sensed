@@ -30,7 +30,7 @@
                 </Grid>
               </DataTemplate>
               <DataTemplate DataType="images:Bitmap">
-                <Image Margin="0,0,3,0" Width="20" Height="20" Source="{Binding}"/>
+                <Image Margin="0,0,3,0" Width="100" Height="100" Source="{Binding}"/>
               </DataTemplate>
             </Grid.DataTemplates>
             <Border Margin="1" BorderThickness="1" CornerRadius="4" BorderBrush="Gray"

@@ -1,8 +1,12 @@
-﻿using Avalonia.Collections;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,8 +37,13 @@ public class ChatViewModel : ControlledViewModelBase
         var accs = testProvider.SearchAccounts(new List<SearchFilter>()).Result;
         Account = new Account(accs?.FirstOrDefault(), testProvider);
         LastMessage = "Some text from chat with wrapping";
+        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
+        var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
+        var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
         Messages.Add(new ChatMessage("Hi there!"));
         Messages.Add(new ChatMessage("Oh hi! :)", owned: false));
+        Messages.Add(new ChatMessage(bitmap1, owned: false));
+        Messages.Add(new ChatMessage(bitmap2, owned: true));
     }
 
     public ChatViewModel(Account account, ViewController viewController) : base(viewController)
@@ -47,8 +56,13 @@ public class ChatViewModel : ControlledViewModelBase
         return Task.Run(() =>
         {
             Messages.Clear();
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
+            var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
+            var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
             Messages.Add(new ChatMessage($"Hi there, {Account.Name}!"));
             Messages.Add(new ChatMessage($"Oh hi, {ViewController.MainViewModel.CurrentProfile.Name}! :)", owned: false));
+            Messages.Add(new ChatMessage(bitmap1, owned: false));
+            Messages.Add(new ChatMessage(bitmap2, owned: true));
 
             return base.OnActivation();
         });
