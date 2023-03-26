@@ -2,7 +2,7 @@
 
 public class SettingsViewModel : ControlledViewModelBase
 {
-    public SettingsViewModel() : base(null) { }
+    public SettingsViewModel() : base() { }
 
     public SettingsViewModel(ViewController viewController) : base(viewController)
     {

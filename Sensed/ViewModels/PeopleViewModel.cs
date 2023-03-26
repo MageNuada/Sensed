@@ -13,10 +13,8 @@ public class PeopleViewModel : ControlledViewModelBase
     private AvaloniaList<ProfileViewModel>? _accs = null;
     private int _selectedIndex;
 
-    public PeopleViewModel() : base(null)
+    public PeopleViewModel() : base()
     {
-        if (!Design.IsDesignMode) throw new Exception("For design view only!");
-
         Accounts.Add(new ProfileViewModel());
     }
 

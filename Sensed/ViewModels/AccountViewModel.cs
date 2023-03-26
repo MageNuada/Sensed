@@ -8,7 +8,7 @@ public class AccountViewModel : ControlledViewModelBase
 {
     private readonly Account _currentProfile;
 
-    public AccountViewModel() : base(null)
+    public AccountViewModel() : base()
     {
 
     }

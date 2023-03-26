@@ -9,7 +9,7 @@ namespace Sensed.ViewModels
     public class RegistrationViewModel : ControlledViewModelBase
     {
         [Reactive] public IEnumerable Genders { get; set; } = Enum.GetValues(typeof(Gender));
-        public RegistrationViewModel() : base(null)
+        public RegistrationViewModel() : base()
         {
             //if (!Design.IsDesignMode) throw new Exception("For design view only!");
             //RegistrationScreens.Add(new UserControl());

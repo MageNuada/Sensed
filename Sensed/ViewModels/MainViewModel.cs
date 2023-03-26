@@ -57,7 +57,7 @@ public class MainViewModel : ViewModelBase, IViewControlled
         ViewModelBase vm = index switch
         {
             0 => ViewController.GetOrCreateView<PeopleViewModel>(),
-            1 => ViewController.GetOrCreateView<ChatsViewModel>(),
+            1 => ViewController.GetOrCreateView<ChatsListViewModel>(),
             2 => ViewController.GetOrCreateView<LikedAccountsViewModel>(),
             3 => ViewController.GetOrCreateView<AccountViewModel>(CurrentProfile, ViewController),
             _ => throw new ArgumentException("Wrong tab selected!"),

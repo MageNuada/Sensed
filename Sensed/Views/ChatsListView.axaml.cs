@@ -2,9 +2,9 @@ using Sensed.ViewModels;
 
 namespace Sensed.Views;
 
-public partial class ChatsView : ViewBase<ChatsViewModel>
+public partial class ChatsListView : ViewBase<ChatsListViewModel>
 {
-    public ChatsView()
+    public ChatsListView()
     {
         InitializeComponent();
     }

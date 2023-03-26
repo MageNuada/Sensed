@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI;
+using System;
 using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
@@ -62,8 +63,13 @@ public class ViewModelBase : ReactiveObject
     }
 }
 
-public class ControlledViewModelBase : ViewModelBase, IViewControlled
+public abstract class ControlledViewModelBase : ViewModelBase, IViewControlled
 {
+    public ControlledViewModelBase() : base()
+    {
+        if (!Design.IsDesignMode) throw new Exception("For design view only!");
+    }
+
     public ControlledViewModelBase(ViewController viewController) : base()
     {
         ViewController = viewController;

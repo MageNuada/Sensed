@@ -36,10 +36,8 @@ public class ProfileImage : ReactiveObject
 
 public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
 {
-    public FillProfileViewModel() : base(null)
+    public FillProfileViewModel() : base()
     {
-        if (!Design.IsDesignMode) throw new Exception("For design view only!");
-
         Images.AddRange(Enumerable.Range(0,9).Select(x => new ProfileImage()));
     }
 

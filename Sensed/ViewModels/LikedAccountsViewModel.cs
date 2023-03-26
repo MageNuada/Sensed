@@ -1,8 +1,6 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Controls;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Models;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,9 +8,8 @@ namespace Sensed.ViewModels;
 
 public class LikedAccountsViewModel : ControlledViewModelBase
 {
-    public LikedAccountsViewModel() : base(null)
+    public LikedAccountsViewModel() : base()
     {
-        if (!Design.IsDesignMode) throw new Exception("For design view only!");
     }
 
     public LikedAccountsViewModel(ViewController viewController) : base(viewController)

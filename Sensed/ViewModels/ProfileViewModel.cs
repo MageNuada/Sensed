@@ -2,7 +2,6 @@
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +10,8 @@ namespace Sensed.ViewModels;
 
 public class ProfileViewModel : ControlledViewModelBase, IQueuedView
 {
-    public ProfileViewModel() : base(null)
+    public ProfileViewModel() : base()
     {
-        if (!Design.IsDesignMode) throw new Exception("For design view only!");
-
         var testProvider = new StubDataProvider();
         var accs = testProvider.SearchAccounts(new List<SearchFilter>()).Result;
         Account = new Account(accs?.FirstOrDefault(), testProvider);
