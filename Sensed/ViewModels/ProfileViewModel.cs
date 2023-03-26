@@ -30,13 +30,6 @@ public class ProfileViewModel : ControlledViewModelBase, IQueuedView
         ViewController.OpenView(this, true);
     }
 
-    public void SelectChatCommand()
-    {
-        if (Design.IsDesignMode) return;
-
-        //ViewController.OpenView(this, true);
-    }
-
     public async Task LikeCommand(object o)
     {
         if (Design.IsDesignMode) return;

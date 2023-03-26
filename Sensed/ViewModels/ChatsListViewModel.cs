@@ -22,6 +22,7 @@ public class ChatsListViewModel : ControlledViewModelBase
     {
         return Task.Run(async () =>
         {
+            MatchedAccounts.Clear();
             var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
             var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == LikeSource.BothSidesLike)
             .Select(a => ViewController.CreateView<ChatViewModel>(new Account(a.account, ViewController.DataProvider), ViewController));

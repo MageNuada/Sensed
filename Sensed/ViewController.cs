@@ -153,7 +153,7 @@ public class ViewController
 
     private List<ViewModelBase> OpenedViewModels { get; } = new();
 
-    private MainViewModel MainViewModel { get; set; }
+    internal MainViewModel MainViewModel { get; set; }
 
     public IStorageProvider? StorageProvider => MainViewModel?.StorageProvider;
 
