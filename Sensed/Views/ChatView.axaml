@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:sensed="using:Sensed"
+             xmlns:local="using:Sensed.ViewModels"
+             xmlns:images="using:Avalonia.Media.Imaging"
+             xmlns:core="using:System"
+             x:Class="Sensed.Views.ChatView"
+             x:DataType="local:ChatViewModel" x:CompileBindings="True">
+
+  <UserControl.Resources>
+    <sensed:BoolAligmentConverter x:Key="BoolAligmentConverter"/>
+  </UserControl.Resources>
+  
+  <Design.DataContext>
+    <local:ChatViewModel />
+  </Design.DataContext>
+  
+  <Grid>
+    <ItemsControl Margin="20,60,20,20" Items="{Binding Messages}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.DataTemplates>
+              <DataTemplate DataType="core:String">
+                <Grid>
+                  <TextBlock Foreground="Black" Text="{Binding}" Padding="3" TextWrapping="Wrap"/>
+                </Grid>
+              </DataTemplate>
+              <DataTemplate DataType="images:Bitmap">
+                <Image Margin="0,0,3,0" Width="20" Height="20" Source="{Binding}"/>
+              </DataTemplate>
+            </Grid.DataTemplates>
+            <Border Margin="1" BorderThickness="1" CornerRadius="4" BorderBrush="Gray"
+                    HorizontalAlignment="{Binding Owned, Converter={StaticResource BoolAligmentConverter}}">
+              <ContentControl Margin="1" Content="{Binding Message}" />
+            </Border>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Button Content="Return" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"
+            Command="{Binding ReturnCommand}"/>
+  </Grid>
+</UserControl>
