@@ -3,6 +3,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Platform.Storage;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
@@ -20,9 +21,6 @@ public class ChatMessage
         Message = message;
         Type = type;
         Owned = owned;
-        //TODO: обернуть картинки в отдельную вьюмодель, чтобы можно было по клику на картинку открывать её и закрывать,
-        //отдельная вьюмодель требуется для интеракшнс в хамле - там нельзя передать аргумент, поэтому надо будет
-        //работать в классе самой вьюмодели картинки
     }
 
     public object Message { get; }
@@ -45,8 +43,8 @@ public class ChatViewModel : ControlledViewModelBase
         var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
         Messages.Add(new ChatMessage("Hi there!"));
         Messages.Add(new ChatMessage("Oh hi! :)", owned: false));
-        Messages.Add(new ChatMessage(bitmap1, owned: false));
-        Messages.Add(new ChatMessage(bitmap2, owned: true));
+        Messages.Add(new ChatMessage(new ImagePreviewViewModel(bitmap1, null, false), 1, owned: false));
+        Messages.Add(new ChatMessage(new ImagePreviewViewModel(bitmap2, null, false), 1, owned: true));
     }
 
     public ChatViewModel(Account account, ViewController viewController) : base(viewController)
@@ -64,8 +62,8 @@ public class ChatViewModel : ControlledViewModelBase
             var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
             Messages.Add(new ChatMessage($"Hi there, {Account.Name}!"));
             Messages.Add(new ChatMessage($"Oh hi, {ViewController.MainViewModel.CurrentProfile.Name}! :)", owned: false));
-            Messages.Add(new ChatMessage(bitmap1, owned: false));
-            Messages.Add(new ChatMessage(bitmap2, owned: true));
+            Messages.Add(new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap1, ViewController, false), 1, owned: false));
+            Messages.Add(new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap2, ViewController, false), 1, owned: true));
 
             return base.OnActivation();
         });
@@ -91,6 +89,42 @@ public class ChatViewModel : ControlledViewModelBase
 
         Messages.Add(new ChatMessage(NewMessageText));
         NewMessageText = null;
+    }
+
+    public async void UploadContentCommand()
+    {
+        if (Design.IsDesignMode) return;
+
+        if (Design.IsDesignMode || ViewController.StorageProvider == null) return;
+
+        var files = await ViewController.StorageProvider.OpenFilePickerAsync(
+            new FilePickerOpenOptions()
+            {
+                AllowMultiple = false,
+                Title = "Load your photo",
+                FileTypeFilter = new[]
+                {
+                    new FilePickerFileType("image")
+                    {
+                        Patterns = new[] { "*.bmp", "*.png", "*.jpg", "*.jpeg" }
+                    }
+                }
+            });
+
+        if (files == null || files.Count == 0) return;
+
+        var file = files[0];
+        using var stream = await file.OpenReadAsync();
+
+        if (stream.Length > 20_000_000) return;
+
+        var bitmap = Bitmap.DecodeToHeight(stream, 768, BitmapInterpolationMode.HighQuality);
+
+        if (bitmap.PixelSize.AspectRatio > 2 || bitmap.PixelSize.AspectRatio < 0.5) return;
+
+        var id = await ViewController.DataProvider.UploadPhoto(bitmap);
+
+        Messages.Add(new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap, ViewController, false), 1, owned: true));
     }
 
     public Account Account { get; }
