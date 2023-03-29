@@ -131,7 +131,7 @@ public class ViewController
         else if (MainViewModel.ActiveViewModel?.GetType() != typeof(PeopleViewModel))
         {
             var viewModel = ExistedViewModels.FirstOrDefault(x => x.GetType() == typeof(PeopleViewModel));
-            if (viewModel == null)
+            if (viewModel != null)
             {
                 MainViewModel.SetViewModel(viewModel);
                 return true;
