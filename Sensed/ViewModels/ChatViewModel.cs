@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Data;
 using Sensed.Models;
@@ -56,14 +57,22 @@ public class ChatViewModel : ControlledViewModelBase
     {
         return Task.Run(() =>
         {
-            Messages.Clear();
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
             var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
             var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
-            Messages.Add(new ChatMessage($"Hi there, {Account.Name}!"));
-            Messages.Add(new ChatMessage($"Oh hi, {ViewController.MainViewModel.CurrentProfile.Name}! :)", owned: false));
-            Messages.Add(new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap1, ViewController, false), 1, owned: false));
-            Messages.Add(new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap2, ViewController, false), 1, owned: true));
+            ChatMessage[] chatMessages = new ChatMessage[]
+            {
+                new ChatMessage($"Hi there, {Account.Name}!"),
+                new ChatMessage($"Oh hi, {ViewController.MainViewModel.CurrentProfile.Name}! :)", owned: false),
+                new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap1, ViewController, false), 1, owned: false),
+                new ChatMessage(ViewController.CreateView<ImagePreviewViewModel>(bitmap2, ViewController, false), 1, owned: true),
+            };
+
+            Dispatcher.UIThread.Post(() =>
+            {
+                Messages.Clear();
+                Messages.AddRange(chatMessages);
+            });
 
             return base.OnActivation();
         });
@@ -133,7 +142,7 @@ public class ChatViewModel : ControlledViewModelBase
 
     [Reactive] bool HasUnread { get; set; }
 
-    public AvaloniaList<ChatMessage> Messages { get; } = new();
+    [Reactive] public AvaloniaList<ChatMessage> Messages { get; set; } = new();
 
     [Reactive] public string? NewMessageText { get; set; }
 }

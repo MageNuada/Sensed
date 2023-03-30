@@ -27,26 +27,27 @@
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <Grid>
-                <Grid.DataTemplates>
-                  <DataTemplate DataType="core:String">
-                    <Grid>
-                      <TextBlock Foreground="Black" Text="{Binding}" Padding="3" TextWrapping="Wrap"/>
-                    </Grid>
-                  </DataTemplate>
-                  <DataTemplate DataType="local:ImagePreviewViewModel">
-                    <Image Margin="0,0,3,0" Width="100" Height="100" Source="{Binding Image}">
-                      <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="PointerReleased">
-                          <ia:CallMethodAction MethodName="ShowFullImageCommand"
-                                               TargetObject="{Binding}"/>
-                        </ia:EventTriggerBehavior>
-                      </i:Interaction.Behaviors>                      
-                    </Image>
-                  </DataTemplate>
-                </Grid.DataTemplates>
                 <Border Margin="1" BorderThickness="1" CornerRadius="4" BorderBrush="Gray"
                         HorizontalAlignment="{Binding Owned, Converter={StaticResource BoolAligmentConverter}}">
-                  <ContentControl Margin="1" Content="{Binding Message}" />
+                  <ContentControl Margin="1" Content="{Binding Message}" >
+                    <ContentControl.DataTemplates>
+                      <DataTemplate DataType="core:String">
+                        <Grid>
+                          <TextBlock Foreground="Black" Text="{Binding}" Padding="3" TextWrapping="Wrap"/>
+                        </Grid>
+                      </DataTemplate>
+                      <DataTemplate DataType="local:ImagePreviewViewModel">
+                        <Image Margin="0,0,3,0" Width="100" Height="100" Source="{Binding Image}">
+                          <i:Interaction.Behaviors>
+                            <ia:EventTriggerBehavior EventName="PointerReleased">
+                              <ia:CallMethodAction MethodName="ShowFullImageCommand"
+                                                   TargetObject="{Binding}"/>
+                            </ia:EventTriggerBehavior>
+                          </i:Interaction.Behaviors>
+                        </Image>
+                      </DataTemplate>
+                    </ContentControl.DataTemplates>
+                  </ContentControl>
                 </Border>
               </Grid>
             </DataTemplate>
