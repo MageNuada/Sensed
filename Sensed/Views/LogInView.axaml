@@ -5,12 +5,14 @@
              xmlns:local="using:Sensed.ViewModels"
              xmlns:models="using:Sensed.Models"
              xmlns:views="using:Sensed.Views"
-             
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Sensed.Views.SettingsView"
-             x:DataType="local:SettingsViewModel">
-  <Button Background="DarkSlateBlue" Content="Выйти" Margin="0,0,10,0" Width="100"
-          Command="{Binding LogOutCommand}"
-          CommandParameter="{Binding}"
+             x:Class="Sensed.Views.LogInView"
+             x:DataType="local:LogInViewModel" x:CompileBindings="True">
+  <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Button Content="Войти" />
+    <Button Content="Зарегистрироваться" 
+            Command="{Binding OpenRegistrationCommand}"
+            CommandParameter="{Binding}"
           x:CompileBindings="False"/>
+  </StackPanel>
 </UserControl>

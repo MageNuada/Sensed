@@ -7,7 +7,7 @@ namespace Sensed.Views;
 
 public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
 {
-    public ViewBase()
+    public ViewBase()//зачем пустой конструктор?
     {
     }
 
@@ -15,7 +15,7 @@ public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
     {
         base.OnAttachedToVisualTree(e);
 
-        if (Design.IsDesignMode) return;
+        if (Design.IsDesignMode) return; //что за класс десигн?
 
         ViewModel?.Activate();
     }

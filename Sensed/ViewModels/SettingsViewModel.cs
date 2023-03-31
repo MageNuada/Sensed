@@ -1,4 +1,8 @@
-﻿namespace Sensed.ViewModels;
+﻿using Avalonia.Controls;
+using Sensed.Models;
+using System.Threading.Tasks;
+
+namespace Sensed.ViewModels;
 
 public class SettingsViewModel : ControlledViewModelBase
 {
@@ -6,5 +10,13 @@ public class SettingsViewModel : ControlledViewModelBase
 
     public SettingsViewModel(ViewController viewController) : base(viewController)
     {
+
+    }
+
+    public void LogOutCommand()
+    {
+        if (Design.IsDesignMode) return;
+
+        ViewController.OpenView<LogInViewModel>(true);
     }
 }

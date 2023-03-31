@@ -11,14 +11,12 @@ namespace Sensed.ViewModels
         [Reactive] public IEnumerable Genders { get; set; } = Enum.GetValues(typeof(Gender));
         public RegistrationViewModel() : base()
         {
-            //if (!Design.IsDesignMode) throw new Exception("For design view only!");
-            //RegistrationScreens.Add(new UserControl());
-            //var genders = Enum.GetValues(typeof(Gender));
+
         }
 
         public RegistrationViewModel(ViewController viewController) : base(viewController)
         {
-            if (Design.IsDesignMode) return;
+            //if (Design.IsDesignMode) return;
         }
 
     }
