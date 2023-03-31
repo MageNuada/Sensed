@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using System.Threading.Tasks;
 using Sensed.Models;
 using System.Linq;
+using Avalonia.Threading;
 
 namespace Sensed.ViewModels;
 
@@ -29,14 +30,15 @@ public class PeopleViewModel : ControlledViewModelBase
         {
             ShowLoading = true;
             var accsDto = await ViewController.DataProvider.SearchAccounts(Array.Empty<SearchFilter>());
-            Accounts.AddRange(accsDto.Select(x =>
+            var accs = accsDto.Select(x =>
             {
                 return ViewController.CreateView<ProfileViewModel>(new Account(x, ViewController.DataProvider), ViewController, false);
                 //это позволяет нам прогрузить первое фото для профиля сразу
                 //var acc = new Account(x, DataProvider);
                 //var ph = acc.Photos[0].Value.Result;
                 //return acc;
-            }));
+            });
+            Dispatcher.UIThread.Post(() => Accounts.AddRange(accs));
 
             ShowLoading = false;
             return base.OnInit();
@@ -47,8 +49,11 @@ public class PeopleViewModel : ControlledViewModelBase
     {
         if (_accs != null)
         {
-            Accounts = _accs;
-            SelectedProfileIndex = _selectedIndex;
+            Dispatcher.UIThread.Post(() =>
+            {
+                Accounts = _accs;
+                SelectedProfileIndex = _selectedIndex;
+            });
         }
 
         return base.OnActivation();

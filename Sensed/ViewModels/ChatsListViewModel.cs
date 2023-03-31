@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Threading;
 using Sensed.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,15 +23,18 @@ public class ChatsListViewModel : ControlledViewModelBase
     {
         return Task.Run(async () =>
         {
-            MatchedAccounts.Clear();
             var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
             var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == LikeSource.BothSidesLike)
             .Select(a => ViewController.CreateView<ChatViewModel>(new Account(a.account, ViewController.DataProvider), ViewController));
-            MatchedAccounts.AddRange(accs);
+            Dispatcher.UIThread.Post(() =>
+            {
+                MatchedAccounts.Clear();
+                MatchedAccounts.AddRange(accs);
+            });
 
             return base.OnActivation();
         });
     }
 
-    public AvaloniaList<ChatViewModel> MatchedAccounts { get; } = new();
+    public AvaloniaList<ChatViewModel> MatchedAccounts { get; } = new() { ResetBehavior = ResetBehavior.Reset };
 }

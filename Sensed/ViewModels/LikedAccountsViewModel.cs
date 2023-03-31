@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Models;
 using System.Linq;
@@ -25,7 +26,7 @@ public class LikedAccountsViewModel : ControlledViewModelBase
             var allAccs = await ViewController.DataProvider.GetMatchedAccounts();
             var accs = allAccs.Where(a => a.mark >= AccountMark.Like && a.whos == LikeSource.AnotherUsers)
             .Select(a => ViewController.CreateView<ProfileViewModel>(new Account(a.account, ViewController.DataProvider), ViewController, true));
-            Accounts.AddRange(accs);
+            Dispatcher.UIThread.Post(() => Accounts.AddRange(accs));
 
             return base.OnActivation();
         });

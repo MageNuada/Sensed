@@ -3,6 +3,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Sensed.Models;
@@ -104,15 +105,20 @@ public class FillProfileViewModel : ControlledViewModelBase, IQueuedView
     {
         return Task.Run(async () =>
         {
+            AvaloniaList<ProfileImage> images = new(9);
             foreach (var image in Owner.Photos)
             {
                 var data = await image.Image.Value;
-                Images.Add(new ProfileImage(data, image.Id));
+                images.Add(new ProfileImage(data, image.Id));
             }
-            for (int i = Images.Count; i < 9; i++)
-                Images.Add(new ProfileImage());
+            for (int i = images.Count; i < 9; i++)
+                images.Add(new ProfileImage());
 
-            Description = Owner.Description;
+            Dispatcher.UIThread.Post(() =>
+            {
+                Description = Owner.Description;
+                Images.AddRange(images);
+            });
         });
     }
 
