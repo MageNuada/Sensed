@@ -14,12 +14,12 @@ public partial class RegistrationView : ViewBase<RegistrationViewModel>
     {
         InitializeComponent();
 
-        _carousel = this.Get<Carousel>("carousel");
-        _right = this.Get<Button>("right");
-        _right.Click += (s, e) => _carousel.Next();
-        _left=this.Get<Button>("left");
-        _left.Click += (s, e) => _carousel.Previous();
-        
+        //_carousel = this.Get<Carousel>("carousel");
+        //_right = this.Get<Button>("right");
+        //_right.Click += (s, e) => _carousel.Next();
+        //_left=this.Get<Button>("left");
+        //_left.Click += (s, e) => _carousel.Previous();
+
     }
 
 }

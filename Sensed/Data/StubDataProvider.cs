@@ -12,6 +12,8 @@ internal class StubDataProvider : IDataProvider
 {
     private readonly List<AccountDTO> _profiles;
     private readonly Dictionary<string, Bitmap> _images = new();
+    private readonly List<Country> _countries; 
+
 
     internal StubDataProvider()
     {
@@ -55,6 +57,13 @@ internal class StubDataProvider : IDataProvider
             },
         };
 
+        _countries = new List<Country>
+        {
+            new Country("Россия", "+7"),
+            new Country("Афганистан", "+93"),
+            new Country("Армения", "+374")
+        };
+
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
         var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
         var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
@@ -68,6 +77,7 @@ internal class StubDataProvider : IDataProvider
         _images.Add("7", bitmap1);
         _images.Add("8", bitmap2);
         _images.Add("9", bitmap3);
+
     }
 
     private string? CurrentId { get; set; }
@@ -187,5 +197,9 @@ internal class StubDataProvider : IDataProvider
                 ("Casual", InfoType.Desire),
             } as IEnumerable<(string parameter, InfoType type)>;
         });
+    }
+    public Task<IEnumerable<Country>> GetCountries()//засунуть в GetSGParams()
+    {
+        return Task.Delay(150).ContinueWith(x => _countries.ToArray() as IEnumerable<Country>);
     }
 }

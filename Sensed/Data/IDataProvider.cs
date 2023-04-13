@@ -106,4 +106,10 @@ public interface IDataProvider
     /// <param name="photoId">ID удаляемого изображения</param>
     /// <returns></returns>
     public Task<OperationResult> DeletePhoto(string photoId);
+
+    /// <summary>
+    /// Получение списка стран
+    /// </summary>
+    /// <returns></returns>
+    public Task<IEnumerable<Country>> GetCountries();
 }

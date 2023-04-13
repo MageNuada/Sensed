@@ -17,57 +17,82 @@
         Margin="0 16 0 0"
         Grid.Row="0">
 
-    <Button Name="left" Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
-      <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black"/>
-    </Button>
-
     <Carousel Name="carousel" Grid.Column="1" VerticalAlignment="Stretch">
       <Carousel.PageTransition>
         <PageSlide Duration="0.25" Orientation="Horizontal" />
       </Carousel.PageTransition>
       <UserControl VerticalAlignment="Stretch" Background="AliceBlue">
         <Grid>
-          <TextBlock VerticalAlignment="Center"> Вам должно быть 18 лет или больше для использования Sensed  </TextBlock>
-          <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Мне 18+ </Button>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10"> Вам должно быть 18 лет или больше для использования Sensed  </TextBlock>
+          <Button Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10" Command="{Binding $parent[Carousel].Next}"> Мне 18+ </Button>
         </Grid>
       </UserControl>
       <UserControl VerticalAlignment="Stretch" Background="Gainsboro">
-        <StackPanel>
-          <TextBlock VerticalAlignment="Center" > Sensed - это пидрильный клуб любителей пощекотать очко. Заходи один или с партнером, чтобы найти любовников и друзей </TextBlock>
-          <Button Name="email" VerticalAlignment="Bottom" Command="{Binding $parent[Carousel].Next}"> Вход по email </Button>
-          <Button> Вход по Google </Button>
-        </StackPanel>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" VerticalAlignment="Bottom" TextAlignment="Center" TextWrapping="Wrap"> Sensed - это пидрильный клуб любителей пощекотать очко.<LineBreak />Заходи один или с партнером, чтобы найти любовников и друзей </TextBlock>
+          <Button Grid.Row="1" Name="email" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Command="{Binding $parent[Carousel].Next}"> Вход по email </Button>
+          <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top"> Вход по Google </Button>
+        </Grid>
       </UserControl>
       <UserControl VerticalAlignment="Stretch" Background="Azure">
-        <StackPanel>
-          <TextBlock VerticalAlignment="Bottom"> На какую почту нам прислать ссылку для подтверждения регистрации? </TextBlock>
-          <TextBox VerticalAlignment="Center">Email</TextBox>
-          <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Отправить </Button>
-        </StackPanel>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"> На какую почту нам прислать ссылку для подтверждения регистрации? </TextBlock>
+          <TextBox Grid.Row="1" VerticalAlignment="Center" Margin="10">Email</TextBox>
+          <Button Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Отправить </Button>
+        </Grid>
       </UserControl>
       <UserControl>
-        <StackPanel>
-          <TextBlock VerticalAlignment="Bottom"> Подтверждение отправлено! </TextBlock>
-          <TextBlock VerticalAlignment="Bottom"> Пожалуйста, проверьте ваши входящие письма и нажмите на ссылку, которую мы вам прислали </TextBlock>
-          <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding $parent[Carousel].Next}"> Открыть приложение почты </Button>
-          <Button VerticalAlignment="Bottom" HorizontalAlignment="Center"> Я не получил письмо.(это должна быть гиперссылка) </Button>
-        </StackPanel>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" VerticalAlignment="Bottom" TextAlignment="Center" TextWrapping="Wrap"> Подтверждение отправлено!<LineBreak />Пожалуйста, проверьте ваши входящие письма и нажмите на ссылку, которую мы вам прислали</TextBlock>
+          <Button Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Command="{Binding $parent[Carousel].Next}"> Открыть приложение почты </Button>
+          <Button Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center"> Я не получил письмо.(это должна быть гиперссылка) </Button>
+        </Grid>
       </UserControl>
       <UserControl>
         <Grid RowDefinitions="Auto,*,Auto">
-          <Button Grid.Row="0" HorizontalAlignment="Left" Command="{Binding $parent[Carousel].Previous}"> ! </Button>
-          <TextBlock Grid.Row="0" HorizontalAlignment="Center"> 1/10 </TextBlock>
-
+          <Button Grid.Row="0" HorizontalAlignment="Left" Command="{Binding PreviousRegistrationStepCommand}" CommandParameter="{Binding #carouselRegistration}"> ! </Button>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding RegistrationStep, StringFormat='{}{0}'}"/>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding $parent[Carousel].ItemCount, StringFormat='/{0}'}"/>
+          </StackPanel>
           <Carousel Name="carouselRegistration" Grid.Row="1" >
             <Carousel.PageTransition>
               <PageSlide Duration="0.25" Orientation="Horizontal" />
             </Carousel.PageTransition>
             <UserControl>
-              <StackPanel>
-                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Введите свой номер телефона. Нам важно знать, что вы реальный человек. </TextBlock>
-                <TextBox Name="countryCode"></TextBox>
-                <TextBox Name="phoneNumber">Phone number</TextBox>
-              </StackPanel>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*"/>
+                  <RowDefinition Height="1.5*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center"> Введите свой номер телефона. Нам важно знать, что вы реальный человек. </TextBlock>
+                <ComboBox Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" Items="{Binding Countries}" DisplayMemberBinding="{Binding Full}">
+                </ComboBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="phoneNumber" Margin="10" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top">Phone number</TextBox>
+              </Grid>
             </UserControl>
             <UserControl>
               <StackPanel>
@@ -98,17 +123,13 @@
             </UserControl>
           </Carousel>
 
-          <Button Grid.Row="2" HorizontalAlignment="Center" Command="{Binding #carouselRegistration.Next}"> Далее </Button>
+          <Button Grid.Row="2" Margin="20" HorizontalAlignment="Center" Command="{Binding NextRegistrationStepCommand}" CommandParameter="{Binding #carouselRegistration}"> Далее </Button>
         </Grid>
       </UserControl>
 
 
 
     </Carousel>
-    <Button Name="right" Grid.Column="2" VerticalAlignment="Center" Padding="10,20" Margin="4">
-      <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Fill="Black"/>
-    </Button>
-
   </Grid>
 </UserControl>
 

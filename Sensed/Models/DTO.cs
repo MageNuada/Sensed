@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sensed.Models;
 
@@ -97,3 +98,27 @@ public class AccountDTO : IAccount
     public string[] Desires { get; set; } = Array.Empty<string>();
     public string[] PhotosIds { get; set; } = Array.Empty<string>();
 }
+
+//public class Country
+//{
+//    public string Name { get; set; }
+//    public string Code { get; set; }
+
+//    public override string ToString()
+//    {
+//        return Code;
+//    }
+
+//    public string Full => Name + Code;
+
+//}
+public record Country(string Name, string Code)
+{
+    public override string ToString()
+    {
+        return Code;
+    }
+
+    public string Full => Name + Code;
+}
+
