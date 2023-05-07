@@ -23,7 +23,7 @@
   <Grid>
     <Grid RowDefinitions="*,auto">
       <ScrollViewer Grid.Row="0" Margin="20,60,20,20" VerticalScrollBarVisibility="Auto">
-        <ItemsControl Items="{Binding Messages}" Margin="0,0,6,0">
+        <ItemsControl ItemsSource="{Binding Messages}" Margin="0,0,6,0">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <Grid>

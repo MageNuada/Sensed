@@ -15,7 +15,7 @@
     <ScrollViewer>
       <Grid>
         <StackPanel Orientation="Vertical">
-          <ItemsControl HorizontalAlignment="Center" Items="{Binding Accounts}">
+          <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Accounts}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <WrapPanel />

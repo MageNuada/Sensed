@@ -17,7 +17,7 @@
     <ScrollViewer>
       <Grid>
         <StackPanel Orientation="Vertical">
-          <ItemsControl HorizontalAlignment="Center" Items="{Binding Images}">
+          <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Images}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <WrapPanel />

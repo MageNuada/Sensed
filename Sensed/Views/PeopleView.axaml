@@ -22,7 +22,7 @@
         <Button IsVisible="False" Name="left" Grid.Column="0" VerticalAlignment="Center" Padding="10,20" Margin="4">
           <Path Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" Fill="Black"/>
         </Button>
-        <Carousel Name="carousel" Grid.Column="1" Items="{Binding Accounts}" SelectedIndex="{Binding SelectedProfileIndex}">
+        <Carousel Name="carousel" Grid.Column="1" ItemsSource="{Binding Accounts}" SelectedIndex="{Binding SelectedProfileIndex}">
           <Carousel.PageTransition>
             <PageSlide Duration="0.25" Orientation="Horizontal" />
           </Carousel.PageTransition>

@@ -21,7 +21,7 @@
                 </Carousel>-->
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <ItemsControl Grid.Row="0" Items="{Binding Account.Photos}">
+      <ItemsControl Grid.Row="0" ItemsSource="{Binding Account.Photos}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <StackPanel Orientation="Vertical" />

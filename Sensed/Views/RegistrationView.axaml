@@ -89,7 +89,7 @@
                   <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center"> Введите свой номер телефона. Нам важно знать, что вы реальный человек. </TextBlock>
-                <ComboBox Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" Items="{Binding Countries}" DisplayMemberBinding="{Binding Full}">
+                <ComboBox Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" ItemsSource="{Binding Countries}" DisplayMemberBinding="{Binding Full}">
                 </ComboBox>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="phoneNumber" Margin="10" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top">Phone number</TextBox>
               </Grid>
@@ -118,7 +118,7 @@
             <UserControl>
               <StackPanel>
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"> Выберите свой гендер </TextBlock>
-                <ListBox Name="genders" Items="{Binding Genders}"></ListBox>
+                <ListBox Name="genders" ItemsSource="{Binding Genders}"></ListBox>
               </StackPanel>
             </UserControl>
           </Carousel>

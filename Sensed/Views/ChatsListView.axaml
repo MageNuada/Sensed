@@ -15,7 +15,7 @@
   
   <Grid>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <ItemsControl Grid.Row="0" Items="{Binding MatchedAccounts}">
+      <ItemsControl Grid.Row="0" ItemsSource="{Binding MatchedAccounts}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <StackPanel Orientation="Vertical" />
