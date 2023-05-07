@@ -16,7 +16,7 @@ public class AccountViewModel : ControlledViewModelBase
     public AccountViewModel(Account currentProfile, ViewController viewController)
         : base(viewController)
     {
-        Profile = ViewController.GetOrCreateView<ProfileViewModel>(currentProfile, viewController, false);
+        Profile = ViewController.CreateView<ProfileViewModel>(currentProfile, viewController, false);
         _currentProfile = currentProfile;
     }
 
