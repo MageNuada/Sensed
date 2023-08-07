@@ -64,10 +64,10 @@ internal class StubDataProvider : IDataProvider
             new Country("Армения", "+374")
         };
 
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
-        var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
-        var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
-        var bitmap3 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed3.png")));
+        var bitmap1 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
+        var bitmap2 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
+        var bitmap3 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed3.png")));
+        //System.Linq.Enumerable.Range(1, 9).Select(x => new KeyValuePair<string, Bitmap>(x.ToString(), bitmap1));
         _images.Add("1", bitmap1);
         _images.Add("2", bitmap2);
         _images.Add("3", bitmap3);

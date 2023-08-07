@@ -39,9 +39,8 @@ public class ChatViewModel : ControlledViewModelBase
         var accs = testProvider.SearchAccounts(new List<SearchFilter>()).Result;
         Account = new Account(accs?.FirstOrDefault(), testProvider);
         LastMessage = "Some text from chat with wrapping";
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
-        var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
-        var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
+        var bitmap1 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
+        var bitmap2 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
         Messages.Add(new ChatMessage("Hi there!"));
         Messages.Add(new ChatMessage("Oh hi! :)", owned: false));
         Messages.Add(new ChatMessage(new ImagePreviewViewModel(bitmap1, null, false), 1, owned: false));
@@ -57,9 +56,8 @@ public class ChatViewModel : ControlledViewModelBase
     {
         return Task.Run(() =>
         {
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>() ?? throw new Exception();
-            var bitmap1 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
-            var bitmap2 = new Bitmap(assets.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
+            var bitmap1 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed1.png")));
+            var bitmap2 = new Bitmap(AssetLoader.Open(new Uri("avares://Sensed/Assets/unnamed2.png")));
             ChatMessage[] chatMessages = new ChatMessage[]
             {
                 new ChatMessage($"Hi there, {Account.Name}!"),
