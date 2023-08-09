@@ -17,7 +17,7 @@ public partial class MainView : ViewBase<MainViewModel>
         });
     }
 
-    public bool OnBackButton(int keyCode, object? e)
+    public bool OnBackButton()
     {
         if (ViewModel == null) return false;
 
