@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Sensed.Models;
 using System.Collections;
 using Avalonia.Collections;
-using DynamicData;
 
 namespace Sensed.ViewModels
 {

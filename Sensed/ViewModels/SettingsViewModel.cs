@@ -1,6 +1,4 @@
 ﻿using Avalonia.Controls;
-using Sensed.Models;
-using System.Threading.Tasks;
 
 namespace Sensed.ViewModels;
 

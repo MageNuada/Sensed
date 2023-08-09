@@ -1,6 +1,5 @@
 ﻿using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Avalonia;
 using Sensed.Models;
 using System;
 using System.Collections.Generic;
