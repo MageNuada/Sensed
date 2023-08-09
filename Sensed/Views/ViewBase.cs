@@ -7,22 +7,18 @@ namespace Sensed.Views;
 
 public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
 {
-    public ViewBase()//зачем пустой конструктор?
-    {
-    }
-
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
 
-        if (Design.IsDesignMode) return; //что за класс десигн?
+        if (Design.IsDesignMode) return;
 
         ViewModel?.Activate();
     }
 
-    protected override void OnLoaded()
+    protected override void OnLoaded(Avalonia.Interactivity.RoutedEventArgs e)
     {
-        base.OnLoaded();
+        base.OnLoaded(e);
 
         if (Design.IsDesignMode) return;
 
