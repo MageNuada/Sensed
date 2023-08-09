@@ -27,9 +27,8 @@ public class ViewBase<T> : ReactiveUserControl<T> where T : ViewModelBase
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        ViewModel?.Deactivate();
-
-        if (Design.IsDesignMode) return;
+        if (!Design.IsDesignMode)
+            ViewModel?.Deactivate();
 
         base.OnDetachedFromVisualTree(e);
     }
